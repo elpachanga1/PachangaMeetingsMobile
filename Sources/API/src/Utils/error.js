@@ -1,12 +1,11 @@
 function error(message, code) {
-    let e = new Error(message);
-  
-    if (code) {
-      e.statusCode = code;
-    }
-  
-    return e;
+  let e = new Error(message);
+
+  if (code) {
+    e.statusCode = code;
   }
-  
-  module.exports = error;
-  
+
+  return e;
+}
+
+module.exports = error;

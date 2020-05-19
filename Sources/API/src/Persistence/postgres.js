@@ -1,7 +1,18 @@
-const { Client } = require("pg");
-const { parseInsertData, parseQueryData } = require("./parsers");
+const {
+  Client
+} = require("pg");
+const {
+  parseInsertData,
+  parseQueryData
+} = require("./parsers");
 
-const { DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, DB_DATABASE } = process.env;
+const {
+  DB_USER,
+  DB_PASSWORD,
+  DB_HOST,
+  DB_PORT,
+  DB_DATABASE
+} = process.env;
 
 const dbConfig = {
   user: DB_USER,
@@ -61,7 +72,7 @@ function get(table, id) {
 
 function insert(table, data) {
   return new Promise((resolve, reject) => {
-    query = `INSERT INTO ${table} (${Object.keys(
+    const query = `INSERT INTO ${table} (${Object.keys(
       data
     )}) VALUES (${parseInsertData(Object.values(data))})`;
 
@@ -78,7 +89,7 @@ function insert(table, data) {
 
 function update(table, data) {
   return new Promise((resolve, reject) => {
-    query = `UPDATE ${table} SET ${parseQueryData(data)} WHERE id = '${
+    const query = `UPDATE ${table} SET ${parseQueryData(data)} WHERE id = '${
       data.id
     }'`;
     console.log(query);

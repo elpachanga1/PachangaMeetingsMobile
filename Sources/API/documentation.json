@@ -1,370 +1,348 @@
 {
-    "swagger": "2.0",
-    "info": {
-      "description": "aplicacion prueba para laboratorio NodeJS",
-      "version": "1.0.0",
-      "title": "prueba-api-red-social"
-    },
-    "host": "localhost:3000",
-    "basePath": "/api",
-    "tags": [
-      {
-        "name": "user",
-        "description": "usuarios de la red social"
-      }
-    ],
-    "schemes": ["http"],
-    "paths": {
-      "/user": {
-        "get": {
-          "tags": ["user"],
-          "summary": "Obtiene usuarios",
-          "description": "Obtiene usuarios",
-          "operationId": "listUsers",
-          "produces": ["application/json"],
-          "responses": {
-            "default": {
-              "description": "successful operation"
-            }
-          }
-        },
-        "post": {
-          "tags": ["user"],
-          "summary": "Crea un usuario",
-          "description": "Crea un usuario",
-          "operationId": "createUser",
-          "produces": ["application/json"],
-          "parameters": [
-            {
-              "in": "body",
-              "name": "body",
-              "description": "usuario creado",
-              "required": true,
-              "schema": {
-                "$ref": "#/definitions/User"
-              }
-            }
-          ],
-          "responses": {
-            "default": {
-              "description": "successful operation"
-            }
-          }
-        },
-        "put": {
-          "tags": ["user"],
-          "summary": "Actualiza un usuario",
-          "description": "Actualiza un usuario",
-          "operationId": "updateUser",
-          "produces": ["application/json"],
-          "parameters": [
-            {
-              "in": "body",
-              "name": "body",
-              "description": "usuario actualizado",
-              "required": true,
-              "schema": {
-                "$ref": "#/definitions/User"
-              }
-            }
-          ],
-          "responses": {
-            "default": {
-              "description": "successful operation"
-            }
+  "swagger": "2.0",
+  "info": {
+    "description": "aplicacion prueba para laboratorio NodeJS",
+    "version": "1.0.0",
+    "title": "prueba-api-red-social"
+  },
+  "host": "localhost:3000",
+  "basePath": "/api",
+  "tags": [{
+    "name": "user",
+    "description": "usuarios de la red social"
+  }],
+  "schemes": ["http"],
+  "paths": {
+    "/user": {
+      "get": {
+        "tags": ["user"],
+        "summary": "Obtiene usuarios",
+        "description": "Obtiene usuarios",
+        "operationId": "listUsers",
+        "produces": ["application/json"],
+        "responses": {
+          "default": {
+            "description": "successful operation"
           }
         }
       },
-      "/user/{id}": {
-        "get": {
-          "tags": ["user"],
-          "summary": "Obtiene usuario por ID",
-          "description": "Obtiene usuario por ID",
-          "operationId": "getUserByID",
-          "produces": ["application/json"],
-          "parameters": [
-            {
-              "name": "id",
-              "in": "path",
-              "description": "ID del usuario a retornar",
-              "required": true,
-              "type": "integer",
-              "format": "int64"
-            }
-          ],
-          "responses": {
-            "default": {
-              "description": "successful operation"
-            }
+      "post": {
+        "tags": ["user"],
+        "summary": "Crea un usuario",
+        "description": "Crea un usuario",
+        "operationId": "createUser",
+        "produces": ["application/json"],
+        "parameters": [{
+          "in": "body",
+          "name": "body",
+          "description": "usuario creado",
+          "required": true,
+          "schema": {
+            "$ref": "#/definitions/User"
+          }
+        }],
+        "responses": {
+          "default": {
+            "description": "successful operation"
           }
         }
       },
-      "/user/{id}/following": {
-        "get": {
-          "tags": ["user"],
-          "summary": "Obtiene usuarios que siguen al ID definido",
-          "description": "Obtiene usuarios que siguen al ID definido",
-          "operationId": "followedUsersByID",
-          "produces": ["application/json"],
-          "parameters": [
-            {
-              "name": "id",
-              "in": "path",
-              "description": "ID del usuario a retornar",
-              "required": true,
-              "type": "integer",
-              "format": "int64"
-            }
-          ],
-          "responses": {
-            "default": {
-              "description": "successful operation"
-            }
+      "put": {
+        "tags": ["user"],
+        "summary": "Actualiza un usuario",
+        "description": "Actualiza un usuario",
+        "operationId": "updateUser",
+        "produces": ["application/json"],
+        "parameters": [{
+          "in": "body",
+          "name": "body",
+          "description": "usuario actualizado",
+          "required": true,
+          "schema": {
+            "$ref": "#/definitions/User"
           }
-        }
-      },
-      "/user/follow/{id}": {
-        "post": {
-          "tags": ["user"],
-          "summary": "Sigue al usuario definido",
-          "description": "Sigue al usuario definido",
-          "operationId": "followUser",
-          "produces": ["application/json"],
-          "parameters": [
-            {
-              "name": "id",
-              "in": "path",
-              "description": "ID del usuario a retornar",
-              "required": true,
-              "type": "integer",
-              "format": "int64"
-            },
-            {
-              "in": "body",
-              "name": "body",
-              "description": "usuario creado",
-              "required": true,
-              "schema": {
-                "$ref": "#/definitions/User"
-              }
-            }
-          ],
-          "responses": {
-            "default": {
-              "description": "successful operation"
-            }
-          }
-        }
-      },
-      "/user/login": {
-        "post": {
-          "tags": ["user"],
-          "summary": "Autentica usuario",
-          "description": "Autentica usuario",
-          "operationId": "loginUser",
-          "produces": ["application/json"],
-          "parameters": [
-            {
-              "in": "body",
-              "name": "body",
-              "description": "usuario creado",
-              "required": true,
-              "schema": {
-                "$ref": "#/definitions/User"
-              }
-            }
-          ],
-          "responses": {
-            "default": {
-              "description": "successful operation"
-            }
-          }
-        }
-      },
-      "/comment": {
-        "get": {
-          "tags": ["comment"],
-          "summary": "Obtiene comentarios",
-          "description": "Obtiene comentarios",
-          "operationId": "listComments",
-          "produces": ["application/json"],
-          "responses": {
-            "default": {
-              "description": "successful operation"
-            }
-          }
-        },
-        "post": {
-          "tags": ["comment"],
-          "summary": "Crea un comentario a nombre de un usuario",
-          "description": "Crea un comentario a nombre de un usuario",
-          "operationId": "createComment",
-          "produces": ["application/json"],
-          "parameters": [
-            {
-              "in": "body",
-              "name": "body",
-              "description": "comentario creado",
-              "required": true,
-              "schema": {
-                "$ref": "#/definitions/Comment"
-              }
-            }
-          ],
-          "responses": {
-            "default": {
-              "description": "successful operation"
-            }
-          }
-        },
-        "put": {
-          "tags": ["comment"],
-          "summary": "Actualiza un comentario",
-          "description": "Actualiza un comentario",
-          "operationId": "updateComment",
-          "produces": ["application/json"],
-          "parameters": [
-            {
-              "in": "body",
-              "name": "body",
-              "description": "comentario actualizado",
-              "required": true,
-              "schema": {
-                "$ref": "#/definitions/Comment"
-              }
-            }
-          ],
-          "responses": {
-            "default": {
-              "description": "successful operation"
-            }
-          }
-        }
-      },
-      "/comment/{id}": {
-        "get": {
-          "tags": ["comment"],
-          "summary": "Obtiene comentario por ID de pelicula",
-          "description": "Obtiene comentario por ID de pelicula",
-          "operationId": "getCommentByMovieID",
-          "produces": ["application/json"],
-          "parameters": [
-            {
-              "name": "id",
-              "in": "path",
-              "description": "ID de la pelicula a retornar",
-              "required": true,
-              "type": "integer",
-              "format": "int64"
-            }
-          ],
-          "responses": {
-            "default": {
-              "description": "successful operation"
-            }
-          }
-        },
-        "delete": {
-          "tags": ["comment"],
-          "summary": "Elimina comentario por ID",
-          "description": "Elimina comentario por ID",
-          "operationId": "deleteComment",
-          "produces": ["application/json"],
-          "parameters": [
-            {
-              "name": "id",
-              "in": "path",
-              "description": "ID del comentario",
-              "required": true,
-              "type": "integer",
-              "format": "int64"
-            }
-          ],
-          "responses": {
-            "default": {
-              "description": "successful operation"
-            }
+        }],
+        "responses": {
+          "default": {
+            "description": "successful operation"
           }
         }
       }
     },
-    "securityDefinitions": {
-      "petstore_auth": {
-        "type": "oauth2",
-        "authorizationUrl": "http://petstore.swagger.io/oauth/dialog",
-        "flow": "implicit",
-        "scopes": {
-          "write:pets": "modify pets in your account",
-          "read:pets": "read your pets"
+    "/user/{id}": {
+      "get": {
+        "tags": ["user"],
+        "summary": "Obtiene usuario por ID",
+        "description": "Obtiene usuario por ID",
+        "operationId": "getUserByID",
+        "produces": ["application/json"],
+        "parameters": [{
+          "name": "id",
+          "in": "path",
+          "description": "ID del usuario a retornar",
+          "required": true,
+          "type": "integer",
+          "format": "int64"
+        }],
+        "responses": {
+          "default": {
+            "description": "successful operation"
+          }
         }
-      },
-      "api_key": {
-        "type": "apiKey",
-        "name": "api_key",
-        "in": "header"
       }
     },
-    "definitions": {
-      "User": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
-          "username": {
-            "type": "string"
-          },
-          "password": {
-            "type": "string"
+    "/user/{id}/following": {
+      "get": {
+        "tags": ["user"],
+        "summary": "Obtiene usuarios que siguen al ID definido",
+        "description": "Obtiene usuarios que siguen al ID definido",
+        "operationId": "followedUsersByID",
+        "produces": ["application/json"],
+        "parameters": [{
+          "name": "id",
+          "in": "path",
+          "description": "ID del usuario a retornar",
+          "required": true,
+          "type": "integer",
+          "format": "int64"
+        }],
+        "responses": {
+          "default": {
+            "description": "successful operation"
           }
         }
-      },
-      "Comment": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "paragraph": {
-            "type": "string"
-          },
-          "user_id": {
-            "type": "string"
-          },
-          "stars": {
-            "type": "integer"
-          },
-          "movie_id": {
-            "type": "string"
-          },
-          "created": {
-            "type": "string"
-          }
-        }
-      },
-      "ApiResponse": {
-        "type": "object",
-        "properties": {
-          "error": {
-            "type": "boolean"
-          },
-          "status": {
+      }
+    },
+    "/user/follow/{id}": {
+      "post": {
+        "tags": ["user"],
+        "summary": "Sigue al usuario definido",
+        "description": "Sigue al usuario definido",
+        "operationId": "followUser",
+        "produces": ["application/json"],
+        "parameters": [{
+            "name": "id",
+            "in": "path",
+            "description": "ID del usuario a retornar",
+            "required": true,
             "type": "integer",
-            "format": "int32"
+            "format": "int64"
           },
-          "body": {
-            "type": "object",
-            "description": "fecha de creacion del registro"
+          {
+            "in": "body",
+            "name": "body",
+            "description": "usuario creado",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "successful operation"
           }
         }
       }
     },
-    "externalDocs": {
-      "description": "Find out more about Swagger",
-      "url": "http://swagger.io"
+    "/user/login": {
+      "post": {
+        "tags": ["user"],
+        "summary": "Autentica usuario",
+        "description": "Autentica usuario",
+        "operationId": "loginUser",
+        "produces": ["application/json"],
+        "parameters": [{
+          "in": "body",
+          "name": "body",
+          "description": "usuario creado",
+          "required": true,
+          "schema": {
+            "$ref": "#/definitions/User"
+          }
+        }],
+        "responses": {
+          "default": {
+            "description": "successful operation"
+          }
+        }
+      }
+    },
+    "/comment": {
+      "get": {
+        "tags": ["comment"],
+        "summary": "Obtiene comentarios",
+        "description": "Obtiene comentarios",
+        "operationId": "listComments",
+        "produces": ["application/json"],
+        "responses": {
+          "default": {
+            "description": "successful operation"
+          }
+        }
+      },
+      "post": {
+        "tags": ["comment"],
+        "summary": "Crea un comentario a nombre de un usuario",
+        "description": "Crea un comentario a nombre de un usuario",
+        "operationId": "createComment",
+        "produces": ["application/json"],
+        "parameters": [{
+          "in": "body",
+          "name": "body",
+          "description": "comentario creado",
+          "required": true,
+          "schema": {
+            "$ref": "#/definitions/Comment"
+          }
+        }],
+        "responses": {
+          "default": {
+            "description": "successful operation"
+          }
+        }
+      },
+      "put": {
+        "tags": ["comment"],
+        "summary": "Actualiza un comentario",
+        "description": "Actualiza un comentario",
+        "operationId": "updateComment",
+        "produces": ["application/json"],
+        "parameters": [{
+          "in": "body",
+          "name": "body",
+          "description": "comentario actualizado",
+          "required": true,
+          "schema": {
+            "$ref": "#/definitions/Comment"
+          }
+        }],
+        "responses": {
+          "default": {
+            "description": "successful operation"
+          }
+        }
+      }
+    },
+    "/comment/{id}": {
+      "get": {
+        "tags": ["comment"],
+        "summary": "Obtiene comentario por ID de pelicula",
+        "description": "Obtiene comentario por ID de pelicula",
+        "operationId": "getCommentByMovieID",
+        "produces": ["application/json"],
+        "parameters": [{
+          "name": "id",
+          "in": "path",
+          "description": "ID de la pelicula a retornar",
+          "required": true,
+          "type": "integer",
+          "format": "int64"
+        }],
+        "responses": {
+          "default": {
+            "description": "successful operation"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["comment"],
+        "summary": "Elimina comentario por ID",
+        "description": "Elimina comentario por ID",
+        "operationId": "deleteComment",
+        "produces": ["application/json"],
+        "parameters": [{
+          "name": "id",
+          "in": "path",
+          "description": "ID del comentario",
+          "required": true,
+          "type": "integer",
+          "format": "int64"
+        }],
+        "responses": {
+          "default": {
+            "description": "successful operation"
+          }
+        }
+      }
     }
+  },
+  "securityDefinitions": {
+    "petstore_auth": {
+      "type": "oauth2",
+      "authorizationUrl": "http://petstore.swagger.io/oauth/dialog",
+      "flow": "implicit",
+      "scopes": {
+        "write:pets": "modify pets in your account",
+        "read:pets": "read your pets"
+      }
+    },
+    "api_key": {
+      "type": "apiKey",
+      "name": "api_key",
+      "in": "header"
+    }
+  },
+  "definitions": {
+    "User": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "username": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      }
+    },
+    "Comment": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "paragraph": {
+          "type": "string"
+        },
+        "user_id": {
+          "type": "string"
+        },
+        "stars": {
+          "type": "integer"
+        },
+        "movie_id": {
+          "type": "string"
+        },
+        "created": {
+          "type": "string"
+        }
+      }
+    },
+    "ApiResponse": {
+      "type": "object",
+      "properties": {
+        "error": {
+          "type": "boolean"
+        },
+        "status": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "body": {
+          "type": "object",
+          "description": "fecha de creacion del registro"
+        }
+      }
+    }
+  },
+  "externalDocs": {
+    "description": "Find out more about Swagger",
+    "url": "http://swagger.io"
   }
-  
+}

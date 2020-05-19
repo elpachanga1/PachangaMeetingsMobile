@@ -1,8 +1,12 @@
 //logica de negocios
-const {nanoid} = require("nanoid");
+const {
+  nanoid
+} = require("nanoid");
 const moment = require("moment");
 
-const { validateField } = require("../../Utils/validateFields");
+const {
+  validateField
+} = require("../../Utils/validateFields");
 
 const DATA_TABLE_MEETINGS = "meetings";
 const DATA_TABLE_MEETINGS_FOLLOW = "meetings_follow";
@@ -66,7 +70,9 @@ module.exports = function (injectedStore) {
   }
 
   async function meeting_following(meeting_id) {
-    const query = { meeting_id: meeting_id };
+    const query = {
+      meeting_id: meeting_id
+    };
     return await store.query(DATA_TABLE_MEETINGS_FOLLOW, query);
   }
 
