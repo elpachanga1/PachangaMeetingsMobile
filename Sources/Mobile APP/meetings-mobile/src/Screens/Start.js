@@ -6,7 +6,7 @@ import AppButton from '../Components/AppButton';
 export default function Start(props) {
   const login = () => {
     const NavigateAction = NavigationActions.navigate({
-      routeName: 'Login',
+      routeName: 'LoginScreen',
     });
     props.navigation.dispatch(NavigateAction);
   };
