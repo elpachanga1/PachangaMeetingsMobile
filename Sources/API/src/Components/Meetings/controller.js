@@ -1,20 +1,20 @@
 //logica de negocios
 const {
   nanoid
-} = require("nanoid");
-const moment = require("moment");
+} = require('nanoid');
+const moment = require('moment');
 
 const {
   validateField
-} = require("../../Utils/validateFields");
+} = require('../../Utils/validateFields');
 
-const DATA_TABLE_MEETINGS = "meetings";
-const DATA_TABLE_MEETINGS_FOLLOW = "meetings_follow";
+const DATA_TABLE_MEETINGS = 'meetings';
+const DATA_TABLE_MEETINGS_FOLLOW = 'meetings_follow';
 
 module.exports = function (injectedStore) {
   let store = injectedStore;
   if (!store) {
-    store = require("../../Persistence/postgres");
+    store = require('../../Persistence/postgres');
   }
 
   async function list() {
@@ -29,10 +29,10 @@ module.exports = function (injectedStore) {
     const event = {
       title: body.title,
       description: body.description,
-      picture: body.picture,
+      //picture: body.picture,
       location_name: body.location_name,
       created_by: body.created_by,
-      created_date: moment().format("YYYY-MM-DD HH:mm:ss"),
+      created_date: moment().format('YYYY-MM-DD HH:mm:ss'),
       latitude: body.latitude,
       longitude: body.longitude,
       id: nanoid(),
@@ -43,7 +43,7 @@ module.exports = function (injectedStore) {
 
   //funcion para crear sesiones ante el controller de sesiones
   async function update(body) {
-    validateField("event_id", body.event_id);
+    validateField('event_id', body.event_id);
 
     const event = {
       id: body.event_id,
@@ -51,7 +51,7 @@ module.exports = function (injectedStore) {
 
     if (body.title) event.title = body.title;
     if (body.description) event.description = body.description;
-    if (body.picture) event.picture = body.picture;
+    //if (body.picture) event.picture = body.picture;
     if (body.location_name) event.location_name = body.location_name;
     if (body.latitude) event.latitude = body.latitude;
     if (body.longitude) event.longitude = body.longitude;
@@ -60,8 +60,8 @@ module.exports = function (injectedStore) {
   }
 
   async function meeting_follow(body) {
-    validateField("meeting_id", body.meeting_id);
-    validateField("user_id", body.user_id);
+    validateField('meeting_id', body.meeting_id);
+    validateField('user_id', body.user_id);
 
     await store.insert(DATA_TABLE_MEETINGS_FOLLOW, {
       meeting_id: body.meeting_id,
@@ -76,6 +76,16 @@ module.exports = function (injectedStore) {
     return await store.query(DATA_TABLE_MEETINGS_FOLLOW, query);
   }
 
+  async function upload_image(req) {
+    const location = encodeURI(`http://${req.hostname}:${process.env.API_PORT}/${req.file.filename}`);
+    console.log(`Storage location is ${location}`);
+
+    return await {
+      ...req.file,
+      location
+    };
+  }
+
   return {
     list,
     get,
@@ -83,5 +93,6 @@ module.exports = function (injectedStore) {
     update,
     meeting_follow,
     meeting_following,
+    upload_image
   };
 };

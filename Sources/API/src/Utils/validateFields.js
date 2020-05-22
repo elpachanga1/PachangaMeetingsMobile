@@ -1,4 +1,4 @@
-const error = require("./error");
+const error = require('./error');
 
 function validateField(key, value) {
   if (!value) {
