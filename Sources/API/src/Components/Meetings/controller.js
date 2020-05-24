@@ -4,9 +4,8 @@ const {
 } = require('nanoid');
 const moment = require('moment');
 
-const {
-  validateField
-} = require('../../Utils/validateFields');
+const validateField = require('../../Utils/validateFields');
+const deleteFile = require('../../Utils/fileManager');
 
 const DATA_TABLE_MEETINGS = 'meetings';
 const DATA_TABLE_MEETINGS_FOLLOW = 'meetings_follow';
@@ -71,19 +70,25 @@ module.exports = function (injectedStore) {
 
   async function meeting_following(meeting_id) {
     const query = {
-      meeting_id: meeting_id
+      meeting_id: meeting_id,
     };
     return await store.query(DATA_TABLE_MEETINGS_FOLLOW, query);
   }
 
   async function upload_image(req) {
-    const location = encodeURI(`http://${req.hostname}:${process.env.API_PORT}/${req.file.filename}`);
-    console.log(`Storage location is ${location}`);
+    const picture = encodeURI(
+      `http://${req.hostname}:${process.env.API_PORT}/${req.file.filename}`
+    );
+    console.log(`Storage location is ${picture}`);
 
-    return await {
-      ...req.file,
-      location
+    const event = {
+      id: req.params.id,
+      picture,
     };
+
+    if (req.meeting && req.meeting.picture) deleteFile(req.meeting.picture);
+
+    return await store.update(DATA_TABLE_MEETINGS, event);
   }
 
   return {
@@ -93,6 +98,6 @@ module.exports = function (injectedStore) {
     update,
     meeting_follow,
     meeting_following,
-    upload_image
+    upload_image,
   };
 };

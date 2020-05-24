@@ -1,10 +1,10 @@
 const {
   Client
-} = require("pg");
+} = require('pg');
 const {
   parseInsertData,
   parseQueryData
-} = require("./parsers");
+} = require('./parsers');
 
 const {
   DB_USER,
@@ -28,16 +28,16 @@ function handleConn() {
   connection = new Client(dbConfig);
   connection.connect((err) => {
     if (err) {
-      console.error("[db err]", err);
+      console.error('[db err]', err);
       setTimeout(handleConn, 2000);
     } else {
-      console.log("DB Connected");
+      console.log('DB Connected');
     }
   });
 
-  connection.on("error", (err) => {
-    console.error("[db err]", err);
-    if (err.code === "CONNECTION_EXCEPTION") {
+  connection.on('error', (err) => {
+    console.error('[db err]', err);
+    if (err.code === 'CONNECTION_EXCEPTION') {
       handleConn();
     } else {
       throw err;
@@ -64,7 +64,7 @@ function get(table, id) {
       (error, result) => {
         if (error) return reject(error);
 
-        resolve(result.rows);
+        resolve((result.rows) ? result.rows[0] : []);
       }
     );
   });
@@ -82,6 +82,7 @@ function insert(table, data) {
       resolve({
         command: result.command,
         rowCount: result.rowCount,
+        id: data.id
       });
     });
   });
@@ -100,13 +101,14 @@ function update(table, data) {
       resolve({
         command: result.command,
         rowCount: result.rowCount,
+        id: data.id
       });
     });
   });
 }
 
 function query(table, query, join) {
-  let joinQuery = "";
+  let joinQuery = '';
   if (join) {
     const key = Object.keys(join)[0];
     const val = join[key];

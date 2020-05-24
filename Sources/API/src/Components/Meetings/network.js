@@ -2,7 +2,7 @@
 const express = require('express');
 
 const Controller = require('./index');
-const response = require('../../NetworkResponses/response');
+const response = require('../../Entities/response');
 
 const upload = require('../../Utils/uploadImage');
 

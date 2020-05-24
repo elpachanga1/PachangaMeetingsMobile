@@ -14,6 +14,8 @@
     },
     "rules": {
         "no-unused-vars": "warn",
-        "quotes": [2, "single"]
+        "no-useless-escape": "warn",
+        "quotes": [2, "single"],
+        "indent": ["error", 2]
     }
 }

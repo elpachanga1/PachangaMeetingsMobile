@@ -6,6 +6,4 @@ function validateField(key, value) {
   }
 }
 
-module.exports = {
-  validateField,
-};
+module.exports = validateField;

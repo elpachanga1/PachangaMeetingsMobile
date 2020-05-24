@@ -6,7 +6,7 @@ const bodyParser = require('body-parser');
 //const swaggerUi = require("swagger-ui-express");
 
 const meetings = require('./src/Components/Meetings/network');
-const errors = require('./src/NetworkResponses/errors');
+const errors = require('./src/Entities/errors');
 
 const app = express();
 const port = process.env.API_PORT || 3500;
