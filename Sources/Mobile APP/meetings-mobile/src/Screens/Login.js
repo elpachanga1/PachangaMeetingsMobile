@@ -1,12 +1,14 @@
 import * as AuthSession from 'expo-auth-session';
 import jwtDecode from 'jwt-decode';
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { Platform, StyleSheet, View } from 'react-native';
 import Toast from 'react-native-simple-toast';
 import { Card } from 'react-native-elements';
+import { observer } from 'mobx-react';
 import AppButton from '../Components/AppButton';
 
 import { auth0ClientId, authorizationEndpoint } from '../../config';
+import { UserStoreContext } from '../Store';
 
 const useProxy = Platform.select({
   web: false,
@@ -17,8 +19,8 @@ const redirectUri = AuthSession.makeRedirectUri({
   useProxy,
 });
 
-export default function Login() {
-  const [name, setName] = useState(null);
+const Login = observer(() => {
+  const userStore = useContext(UserStoreContext);
 
   const [request, result, promptAsync] = AuthSession.useAuthRequest(
     {
@@ -38,10 +40,6 @@ export default function Login() {
     }
   );
 
-  // Retrieve the redirect URL, add this to the callback URL list
-  // of your Auth0 application.
-  console.log(`Redirect URL: ${redirectUri}`);
-
   useEffect(() => {
     if (result) {
       if (result.error) {
@@ -50,17 +48,24 @@ export default function Login() {
           Toast.LONG,
           Toast.BOTTOM
         );
+
+        userStore.user = {};
         return;
       }
       if (result.type === 'success') {
         // Retrieve the JWT token and decode it
-        const jwtToken = result.params.id_token;
-        const decoded = jwtDecode(jwtToken);
+        const token = result.params.id_token;
+        const decoded = jwtDecode(token);
         console.log(decoded);
 
-        const { name } = decoded;
-        setName(name);
-        Toast.showWithGravity(`Welcome ${name}`, Toast.LONG, Toast.BOTTOM);
+        const { nickname } = decoded;
+
+        userStore.user = {
+          token,
+          user: decoded,
+        };
+
+        Toast.showWithGravity(`Welcome ${nickname}`, Toast.LONG, Toast.BOTTOM);
       }
     }
   }, [result]);
@@ -83,7 +88,7 @@ export default function Login() {
       </Card>
     </View>
   );
-}
+});
 
 const styles = StyleSheet.create({
   container: {
@@ -98,3 +103,5 @@ const styles = StyleSheet.create({
     marginTop: 40,
   },
 });
+
+export default Login;
