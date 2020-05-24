@@ -5,10 +5,10 @@ import { Platform, StyleSheet, View } from 'react-native';
 import Toast from 'react-native-simple-toast';
 import { Card } from 'react-native-elements';
 import { observer } from 'mobx-react';
-import AppButton from '../Components/AppButton';
+import AppButton from '../Components/General/AppButton';
 
 import { auth0ClientId, authorizationEndpoint } from '../../config';
-import { UserStoreContext } from '../Store';
+import { UserStoreContext } from '../Store/UserStore';
 
 const useProxy = Platform.select({
   web: false,
@@ -19,7 +19,7 @@ const redirectUri = AuthSession.makeRedirectUri({
   useProxy,
 });
 
-const Login = observer(() => {
+const Login = observer(({ navigation }) => {
   const userStore = useContext(UserStoreContext);
 
   const [request, result, promptAsync] = AuthSession.useAuthRequest(
@@ -66,13 +66,19 @@ const Login = observer(() => {
         };
 
         Toast.showWithGravity(`Welcome ${nickname}`, Toast.LONG, Toast.BOTTOM);
+        navigation.navigate('StartScreen');
       }
     }
   }, [result]);
 
   return (
     <View style={styles.container}>
-      <Card wrapperStyle={{ paddingLeft: 10 }} title="Sign in">
+      <Card
+        wrapperStyle={{
+          paddingLeft: 10,
+        }}
+        title="Sign in"
+      >
         <AppButton
           bgColor="rgba(111, 38, 74, 0.7)"
           title="Log in with Auth0 "

@@ -13,7 +13,8 @@
       "jsx": true
     },
     "ecmaVersion": 11,
-    "sourceType": "module"
+    "sourceType": "module",
+    "experimentalDecorators": true
   },
   "plugins": ["react"],
   "rules": {

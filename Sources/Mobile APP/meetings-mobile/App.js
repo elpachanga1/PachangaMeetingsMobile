@@ -1,6 +1,6 @@
 import React from 'react';
 import { Provider } from 'mobx-react';
-import store from './src/Store';
+import store from './src/Store/UserStore';
 import GuestNavigation from './src/Navigations/Guest';
 
 //Disable yellow warning messages
