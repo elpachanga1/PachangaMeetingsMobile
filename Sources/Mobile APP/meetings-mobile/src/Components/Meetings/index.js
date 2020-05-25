@@ -2,10 +2,10 @@ import React, { useContext, useEffect } from 'react';
 import { View } from 'react-native';
 import { observer } from 'mobx-react';
 
-import AppButton from '../General/AppButton';
+import MeetingsList from './MeetingsList';
 import { MeetingsStoreContext } from '../../Store/MeetingsStore';
 
-const Meetings = observer((props) => {
+const Meetings = observer(() => {
   const meetingsStore = useContext(MeetingsStoreContext);
 
   const queryAPI = async () => {
@@ -23,14 +23,7 @@ const Meetings = observer((props) => {
         flex: 1,
       }}
     >
-      <AppButton
-        bgColor="rgba(111,38,74,0.7)"
-        title="Login "
-        action={props.login}
-        iconName="sign-in"
-        iconSize={30}
-        iconColor="#fff"
-      />
+      <MeetingsList meetings={meetingsStore.meetings} />
     </View>
   );
 });
