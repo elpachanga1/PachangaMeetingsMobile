@@ -6,7 +6,7 @@ import MeetingsList from './MeetingsList';
 import { MeetingsStoreContext } from '../../Store/MeetingsStore';
 import Preloader from '../General/PreLoader';
 
-const Meetings = observer(() => {
+const Meetings = observer((props) => {
   const meetingsStore = useContext(MeetingsStoreContext);
 
   const queryAPI = async () => {
@@ -17,13 +17,19 @@ const Meetings = observer(() => {
     queryAPI();
   }, []);
 
-  const chargeMeetings = () => {
+  const LoadMeetings = () => {
     if (meetingsStore.state === 'pending') return <Preloader />;
     else if (meetingsStore.state === 'error')
       return (
         <Text style={styles.title}>Meetings Not Available, Try Again !!!</Text>
       );
-    else return <MeetingsList meetings={meetingsStore.meetings} />;
+    else
+      return (
+        <MeetingsList
+          meetings={meetingsStore.meetings}
+          navigation={props.navigation}
+        />
+      );
   };
 
   return (
@@ -33,7 +39,7 @@ const Meetings = observer(() => {
         flex: 1,
       }}
     >
-      {chargeMeetings()}
+      {LoadMeetings()}
     </View>
   );
 });

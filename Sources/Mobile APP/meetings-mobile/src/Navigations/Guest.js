@@ -3,9 +3,11 @@ import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import { createDrawerNavigator } from 'react-navigation-drawer';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import StartScreen from '../Screens/Start';
-import LoginScreen from '../Screens/Login';
+import StartScreen from '../Screens/Meetings/MeetingListScreen';
+import LoginScreen from '../Screens/Authentication/LoginScreen';
+import MeetingDetailScreen from '../Screens/Meetings/MeetingDetailScreen';
 
+//navigation options (some default styles)
 const navigationOptions = {
   defaultNavigationOptions: {
     headerStyle: {
@@ -22,6 +24,7 @@ const navigationOptions = {
   },
 };
 
+//navigation buttons
 const leftIcon = (navigation, icon) => (
   <Icon
     name={icon}
@@ -42,7 +45,8 @@ const rightIcon = (navigation, icon) => (
   />
 );
 
-const startScreenStack = createStackNavigator(
+//navigation section meetings
+const MeetingScreenStack = createStackNavigator(
   {
     StartScreen: {
       screen: StartScreen,
@@ -52,10 +56,19 @@ const startScreenStack = createStackNavigator(
         headerLeft: leftIcon(navigation, 'bars'),
       }),
     },
+    MeetingDetailScreen: {
+      screen: MeetingDetailScreen,
+      navigationOptions: ({ navigation }) => ({
+        title: 'Meeting',
+        headerRight: rightIcon(navigation, 'home'),
+        headerLeft: leftIcon(navigation, 'bars'),
+      }),
+    },
   },
   navigationOptions
 );
 
+//navigation section login
 const loginScreenStack = createStackNavigator(
   {
     LoginScreen: {
@@ -70,10 +83,11 @@ const loginScreenStack = createStackNavigator(
   navigationOptions
 );
 
+//navigation section rigth drop-down menu
 const RootStack = createDrawerNavigator(
   {
     StartScreen: {
-      screen: startScreenStack,
+      screen: MeetingScreenStack,
       navigationOptions: ({ navigation }) => ({
         drawerLabel: 'Meetings Portal',
         drawerIcon: ({ tintColor }) => {

@@ -5,10 +5,10 @@ import { Platform, StyleSheet, View } from 'react-native';
 import Toast from 'react-native-simple-toast';
 import { Card } from 'react-native-elements';
 import { observer } from 'mobx-react';
-import AppButton from '../Components/General/AppButton';
+import AppButton from '../../Components/General/AppButton';
 
-import { auth0ClientId, authorizationEndpoint } from '../../config';
-import { UserStoreContext } from '../Store/UserStore';
+import { auth0ClientId, authorizationEndpoint } from '../../../config';
+import { UserStoreContext } from '../../Store/UserStore';
 
 const useProxy = Platform.select({
   web: false,

@@ -1,8 +1,18 @@
 import React from 'react';
-import { View, StyleSheet, Text, Image } from 'react-native';
+import { View, StyleSheet, Text, Image, TouchableOpacity } from 'react-native';
+import { NavigationActions } from 'react-navigation';
 
-//item render
-export default function Item({ item, width }) {
+//navigation to detailed meeting
+function meetingDetail(meeting, navigation) {
+  const navigateAction = NavigationActions.navigate({
+    routeName: 'MeetingDetailScreen',
+    params: { meeting },
+  });
+  navigation.dispatch(navigateAction);
+}
+
+//default function
+export default function Item({ item, width, navigation }) {
   const styleWidth = {
     width,
   };
@@ -11,19 +21,21 @@ export default function Item({ item, width }) {
     return <View style={[styles.item, styles.itemInvisible, styleWidth]} />;
 
   return (
-    <View style={[styles.item, styleWidth]}>
-      <Image
-        style={styles.image}
-        source={
-          item.picture
-            ? {
-                uri: item.picture,
-              }
-            : require('../../../public/no-image-found-360x260.png')
-        }
-      />
-      <Text style={styles.title}>{item.title}</Text>
-    </View>
+    <TouchableOpacity onPress={() => meetingDetail(item, navigation)}>
+      <View style={[styles.item, styleWidth]}>
+        <Image
+          style={styles.image}
+          source={
+            item.picture
+              ? {
+                  uri: item.picture,
+                }
+              : require('../../../public/no-image-found-360x260.png')
+          }
+        />
+        <Text style={styles.title}>{item.title}</Text>
+      </View>
+    </TouchableOpacity>
   );
 }
 

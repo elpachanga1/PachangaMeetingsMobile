@@ -42,11 +42,13 @@ const useScreenDimensions = () => {
   };
 };
 
+//some consts
 const NUM_COLUMNS = 2;
 const MARGIN_HORIZONTAL = 10;
 
+//default function
 export default function MeetingList(props) {
-  const { meetings } = props;
+  const { meetings, navigation } = props;
   const screenData = useScreenDimensions();
 
   //width equations
@@ -58,7 +60,9 @@ export default function MeetingList(props) {
     <SafeAreaView style={styles.container}>
       <FlatList
         data={formatData(meetings)}
-        renderItem={({ item }) => <MeetingItem item={item} width={itemWidth} />}
+        renderItem={({ item }) => (
+          <MeetingItem item={item} width={itemWidth} navigation={navigation} />
+        )}
         keyExtractor={(item) => item.id}
         numColumns={NUM_COLUMNS}
       />
