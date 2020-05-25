@@ -77,7 +77,7 @@ module.exports = function (injectedStore) {
 
   async function upload_image(req) {
     const picture = encodeURI(
-      `http://${req.hostname}:${process.env.API_PORT}/${req.file.filename}`
+      `http://${process.env.API_HOST}:${process.env.API_PORT}/${req.file.filename}`
     );
     console.log(`Storage location is ${picture}`);
 
