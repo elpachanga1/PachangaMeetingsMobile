@@ -1,24 +1,10 @@
 /* eslint-disable no-undef */
 import React, { useState, useEffect } from 'react';
 import { Dimensions } from 'react-native';
-import { SafeAreaView, View, FlatList, StyleSheet, Text } from 'react-native';
+import { SafeAreaView, FlatList, StyleSheet } from 'react-native';
 import Constants from 'expo-constants';
 
-//item render
-function Item({ title, width }) {
-  const styleWidth = {
-    width,
-  };
-
-  if (!title)
-    return <View style={[styles.item, styles.itemInvisible, styleWidth]} />;
-
-  return (
-    <View style={[styles.item, styleWidth]}>
-      <Text style={styles.title}>{title}</Text>
-    </View>
-  );
-}
+import MeetingItem from './MeetingItem';
 
 //function to manage order of boxes in FlatList
 function formatData(data) {
@@ -57,7 +43,7 @@ const useScreenDimensions = () => {
 };
 
 const NUM_COLUMNS = 2;
-const MARGIN_HORIZONTAL = 16;
+const MARGIN_HORIZONTAL = 10;
 
 export default function MeetingList(props) {
   const { meetings } = props;
@@ -72,7 +58,7 @@ export default function MeetingList(props) {
     <SafeAreaView style={styles.container}>
       <FlatList
         data={formatData(meetings)}
-        renderItem={({ item }) => <Item title={item.title} width={itemWidth} />}
+        renderItem={({ item }) => <MeetingItem item={item} width={itemWidth} />}
         keyExtractor={(item) => item.id}
         numColumns={NUM_COLUMNS}
       />
@@ -84,20 +70,5 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginTop: Constants.statusBarHeight,
-  },
-  item: {
-    backgroundColor: '#f9c2ff',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 20,
-    marginVertical: 8,
-    marginHorizontal: MARGIN_HORIZONTAL,
-    height: 250,
-  },
-  itemInvisible: {
-    backgroundColor: 'transparent',
-  },
-  title: {
-    fontSize: 32,
   },
 });
