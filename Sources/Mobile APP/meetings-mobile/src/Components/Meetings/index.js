@@ -9,14 +9,17 @@ import Preloader from '../General/PreLoader';
 const Meetings = observer((props) => {
   const meetingsStore = useContext(MeetingsStoreContext);
 
+  //request to get meetings
   const queryAPI = async () => {
     await meetingsStore.getMeetings();
   };
 
+  //lifecicle event
   useEffect(() => {
     queryAPI();
   }, []);
 
+  //loading meetings (render logic)
   const LoadMeetings = () => {
     if (meetingsStore.state === 'pending') return <Preloader />;
     else if (meetingsStore.state === 'error')
@@ -32,6 +35,7 @@ const Meetings = observer((props) => {
       );
   };
 
+  //final return (render)
   return (
     <View
       style={{

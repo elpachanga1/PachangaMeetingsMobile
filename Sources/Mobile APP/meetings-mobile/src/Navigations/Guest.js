@@ -60,8 +60,7 @@ const MeetingScreenStack = createStackNavigator(
       screen: MeetingDetailScreen,
       navigationOptions: ({ navigation }) => ({
         title: 'Meeting',
-        headerRight: rightIcon(navigation, 'home'),
-        headerLeft: leftIcon(navigation, 'bars'),
+        headerLeft: rightIcon(navigation, 'arrow-left'),
       }),
     },
   },
