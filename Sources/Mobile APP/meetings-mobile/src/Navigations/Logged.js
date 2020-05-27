@@ -4,8 +4,9 @@ import { createStackNavigator } from 'react-navigation-stack';
 import { createDrawerNavigator } from 'react-navigation-drawer';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import StartScreen from '../Screens/Meetings/MeetingListScreen';
-import LoginScreen from '../Screens/Authentication/LoginScreen';
+import LogoutScreen from '../Screens/Authentication/LogoutScreen';
 import MeetingDetailScreen from '../Screens/Meetings/MeetingDetailScreen';
+import MeetingEditScreen from '../Screens/Meetings/MeetingEditScreen';
 
 //navigation options (some default styles)
 const navigationOptions = {
@@ -63,19 +64,24 @@ const MeetingScreenStack = createStackNavigator(
         headerLeft: rightIcon(navigation, 'arrow-left'),
       }),
     },
+    MeetingEditScreen: {
+      screen: MeetingEditScreen,
+      navigationOptions: ({ navigation }) => ({
+        title: 'Edit Meeting',
+        headerLeft: rightIcon(navigation, 'arrow-left'),
+      }),
+    },
   },
   navigationOptions
 );
 
 //navigation section login
-const LoginScreenStack = createStackNavigator(
+const LogoutScreenStack = createStackNavigator(
   {
-    LoginScreen: {
-      screen: LoginScreen,
-      navigationOptions: ({ navigation }) => ({
-        title: 'Login or Sign Up',
-        headerRight: rightIcon(navigation, 'home'),
-        headerLeft: leftIcon(navigation, 'bars'),
+    LogoutScreen: {
+      screen: LogoutScreen,
+      navigationOptions: () => ({
+        title: 'Log Out',
       }),
     },
   },
@@ -94,10 +100,10 @@ const RootStack = createDrawerNavigator(
         },
       }),
     },
-    LoginScreen: {
-      screen: LoginScreenStack,
+    LogoutScreen: {
+      screen: LogoutScreenStack,
       navigationOptions: () => ({
-        drawerLabel: 'Log In - Sign Up',
+        drawerLabel: 'LogIn - SignUp',
         drawerIcon: ({ tintColor }) => {
           <Icon name="sign-in" size={30} style={{ color: tintColor }} />;
         },
