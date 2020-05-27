@@ -1,7 +1,5 @@
 //logica de negocios
-const {
-  nanoid
-} = require('nanoid');
+const { nanoid } = require('nanoid');
 const moment = require('moment');
 
 const validateField = require('../../Utils/validateFields');
@@ -61,11 +59,17 @@ module.exports = function (injectedStore) {
   async function meeting_follow(body) {
     validateField('meeting_id', body.meeting_id);
     validateField('user_id', body.user_id);
+    validateField('nickname', body.nickname);
 
-    await store.insert(DATA_TABLE_MEETINGS_FOLLOW, {
+    let event = {
       meeting_id: body.meeting_id,
       user_id: body.user_id,
-    });
+      nickname: body.nickname,
+    };
+
+    if (body.picture) event.picture = body.picture;
+
+    return await store.insert(DATA_TABLE_MEETINGS_FOLLOW, event);
   }
 
   async function meeting_following(meeting_id) {
