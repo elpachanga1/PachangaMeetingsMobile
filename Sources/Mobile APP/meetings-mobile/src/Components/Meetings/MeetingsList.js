@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { Dimensions } from 'react-native';
 import { SafeAreaView, FlatList, StyleSheet } from 'react-native';
+import { NavigationActions } from 'react-navigation';
 import Constants from 'expo-constants';
 
 import MeetingItem from './MeetingItem';
@@ -43,22 +44,13 @@ const useScreenDimensions = () => {
   };
 };
 
-//navigation to detailed meeting
-function addMeeting(meeting, navigation) {
-  const navigateAction = NavigationActions.navigate({
-    routeName: 'MeetingAddScreen',
-    params: { meeting },
-  });
-  navigation.dispatch(navigateAction);
-}
-
 //some consts
 const NUM_COLUMNS = 2;
 const MARGIN_HORIZONTAL = 10;
 
 //default function
 export default function MeetingList(props) {
-  const { meetings, navigation, user, addMeeting } = props;
+  const { meetings, navigation, user } = props;
   const screenData = useScreenDimensions();
 
   //width equations
@@ -66,13 +58,21 @@ export default function MeetingList(props) {
   itemWidth = itemWidth - NUM_COLUMNS * MARGIN_HORIZONTAL;
   if (screenData.isLandscape) itemWidth = itemWidth - 40;
 
+  //navigation to detailed meeting
+  function addMeeting(navigation) {
+    const navigateAction = NavigationActions.navigate({
+      routeName: 'MeetingAddScreen',
+    });
+    navigation.dispatch(navigateAction);
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       {user.user ? (
         <AppButton
           bgColor="rgba(255, 38, 74, 0.6)"
           title="Add Meeting "
-          action={addMeeting(meeting, navigation)}
+          action={addMeeting(navigation)}
           iconName="plus"
           iconSize={30}
           iconColor="#fff"

@@ -21,6 +21,14 @@ export default class DetailMeeting extends Component {
     this.props.navigation.dispatch(navigateAction);
   }
 
+  removeMeeting() {
+    const navigateAction = NavigationActions.navigate({
+      routeName: 'RemoveMeeting',
+      params: { meeting: this.state.meeting },
+    });
+    this.props.navigation.dispatch(navigateAction);
+  }
+
   goHome() {
     const navigateAction = NavigationActions.navigate({
       routeName: 'StartScreen',
@@ -35,6 +43,7 @@ export default class DetailMeeting extends Component {
         <MeetingDetail
           goHome={this.goHome.bind(this)}
           editMeeting={this.editMeeting.bind(this)}
+          removeMeeting={this.removeMeeting.bind(this)}
           meeting={meeting}
         />
       </ScrollView>

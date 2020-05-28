@@ -5,7 +5,7 @@ import Toast from 'react-native-simple-toast';
 import { View, StyleSheet } from 'react-native';
 import { NavigationActions } from 'react-navigation';
 
-import AppButton from '../../components/AppButton';
+import AppButton from '../../Components/General/AppButton';
 import { options, Meeting } from '../../Forms/MeetingForm';
 
 const Form = t.form.Form;
@@ -62,7 +62,7 @@ export default class AddMeeting extends Component {
           <AppButton
             bgColor="rgba(255, 38, 74, 0.9)"
             title="Add "
-            action={this.update.bind(this)}
+            action={this.save.bind(this)}
             iconName="plus"
             iconSize={30}
             iconColor="#fff"

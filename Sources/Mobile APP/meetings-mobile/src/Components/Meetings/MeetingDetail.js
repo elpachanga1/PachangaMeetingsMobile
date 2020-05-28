@@ -37,11 +37,11 @@ const MeetingDetail = observer((props) => {
   return (
     <Card
       title={meeting.name}
-      image={{
-        uri: meeting.picture
-          ? meeting.picture
-          : require('../../../public/no-image-found-360x260.png'),
-      }}
+      image={
+        meeting.picture
+          ? { uri: meeting.picture }
+          : require('../../../public/no-image-found-360x260.png')
+      }
     >
       <Text style={styles.title}>{meeting.title}</Text>
       <Text style={styles.description}>{meeting.description}</Text>
