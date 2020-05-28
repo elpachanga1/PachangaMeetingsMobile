@@ -4,10 +4,13 @@ import { observer } from 'mobx-react';
 
 import MeetingsList from './MeetingsList';
 import { MeetingsStoreContext } from '../../Store/MeetingsStore';
+import { UserStoreContext } from '../../Store/UserStore';
 import Preloader from '../General/PreLoader';
 
 const Meetings = observer((props) => {
   const meetingsStore = useContext(MeetingsStoreContext);
+  const userStore = useContext(UserStoreContext);
+  //sconsole.log(userStore);
 
   //request to get meetings
   const queryAPI = async () => {

@@ -24,12 +24,12 @@ export default class EditMeeting extends Component {
     if (validate) {
       let data = Object.assign({}, validate);
       //aqui va la peticion de actualizacion
-      this.meetingDetail(this.state.meeting, this.props.navigation);
+      this.meetingDetailNavigation(this.state.meeting, this.props.navigation);
     }
   }
 
   //navigation to detailed meeting
-  meetingDetail(meeting, navigation) {
+  meetingDetailNavigation(meeting, navigation) {
     const navigateAction = NavigationActions.navigate({
       routeName: 'MeetingDetailScreen',
       params: { meeting },

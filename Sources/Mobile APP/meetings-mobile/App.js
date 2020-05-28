@@ -1,17 +1,16 @@
-import React from 'react';
-import { Provider } from 'mobx-react';
-import store from './src/Store/UserStore';
+import React, { useContext } from 'react';
+import { observer } from 'mobx-react';
 import GuestNavigation from './src/Navigations/Guest';
+import LoggedNavigation from './src/Navigations/Logged';
+import { UserStoreContext } from './src/Store/UserStore';
 
 //Disable yellow warning messages
 console.disableYellowBox = true;
 
-function App() {
-  return (
-    <Provider store={store}>
-      <GuestNavigation />
-    </Provider>
-  );
-}
+const App = observer(() => {
+  const userStore = useContext(UserStoreContext);
+
+  return !userStore.user.token ? <GuestNavigation /> : <LoggedNavigation />;
+});
 
 export default App;

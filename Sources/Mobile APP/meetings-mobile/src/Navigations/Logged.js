@@ -103,7 +103,7 @@ const RootStack = createDrawerNavigator(
     LogoutScreen: {
       screen: LogoutScreenStack,
       navigationOptions: () => ({
-        drawerLabel: 'LogIn - SignUp',
+        drawerLabel: 'Log Out',
         drawerIcon: ({ tintColor }) => {
           <Icon name="sign-in" size={30} style={{ color: tintColor }} />;
         },

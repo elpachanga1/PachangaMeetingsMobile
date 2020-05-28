@@ -73,7 +73,7 @@ const LoginScreenStack = createStackNavigator(
     LoginScreen: {
       screen: LoginScreen,
       navigationOptions: ({ navigation }) => ({
-        title: 'Login or Sign Up',
+        title: 'Log In - Sign Up',
         headerRight: rightIcon(navigation, 'home'),
         headerLeft: leftIcon(navigation, 'bars'),
       }),
