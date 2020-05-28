@@ -20,6 +20,49 @@ class MeetingsStore {
       this.state = 'error';
     }
   }
+
+  @action
+  async addMeeting(meeting) {
+    try {
+      this.state = 'pending';
+      await axios.post(backendAPIURL, meeting);
+
+      this.meetings = [...this.meetings, meeting];
+      this.state = 'done';
+    } catch (error) {
+      console.log(error);
+      this.state = 'error';
+    }
+  }
+
+  @action
+  async editMeeting(meeting) {
+    try {
+      this.state = 'pending';
+      await axios.put(backendAPIURL, meeting);
+
+      let newMeetings = this.meetings.filter((x) => x.id !== meeting.id);
+      this.meetings = [newMeetings, meeting];
+      this.state = 'done';
+    } catch (error) {
+      console.log(error);
+      this.state = 'error';
+    }
+  }
+
+  @action
+  async removeMeeting(meeting) {
+    try {
+      this.state = 'pending';
+      await axios.put(backendAPIURL, meeting);
+
+      this.meetings = this.meetings.filter((x) => x.id !== meeting.id);
+      this.state = 'done';
+    } catch (error) {
+      console.log(error);
+      this.state = 'error';
+    }
+  }
 }
 
 export const MeetingsStoreContext = createContext(new MeetingsStore());

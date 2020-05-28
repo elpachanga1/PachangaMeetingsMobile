@@ -5,6 +5,7 @@ import { SafeAreaView, FlatList, StyleSheet } from 'react-native';
 import Constants from 'expo-constants';
 
 import MeetingItem from './MeetingItem';
+import AppButton from '../General/AppButton';
 
 //function to manage order of boxes in FlatList
 function formatData(data) {
@@ -42,13 +43,22 @@ const useScreenDimensions = () => {
   };
 };
 
+//navigation to detailed meeting
+function addMeeting(meeting, navigation) {
+  const navigateAction = NavigationActions.navigate({
+    routeName: 'MeetingAddScreen',
+    params: { meeting },
+  });
+  navigation.dispatch(navigateAction);
+}
+
 //some consts
 const NUM_COLUMNS = 2;
 const MARGIN_HORIZONTAL = 10;
 
 //default function
 export default function MeetingList(props) {
-  const { meetings, navigation } = props;
+  const { meetings, navigation, user, addMeeting } = props;
   const screenData = useScreenDimensions();
 
   //width equations
@@ -58,6 +68,17 @@ export default function MeetingList(props) {
 
   return (
     <SafeAreaView style={styles.container}>
+      {user.user ? (
+        <AppButton
+          bgColor="rgba(255, 38, 74, 0.6)"
+          title="Add Meeting "
+          action={addMeeting(meeting, navigation)}
+          iconName="plus"
+          iconSize={30}
+          iconColor="#fff"
+          setWidth={true}
+        />
+      ) : null}
       <FlatList
         data={formatData(meetings)}
         renderItem={({ item }) => (

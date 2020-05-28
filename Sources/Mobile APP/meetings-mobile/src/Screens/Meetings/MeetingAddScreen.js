@@ -5,38 +5,39 @@ import Toast from 'react-native-simple-toast';
 import { View, StyleSheet } from 'react-native';
 import { NavigationActions } from 'react-navigation';
 
-import AppButton from '../../Components/General/AppButton';
+import AppButton from '../../components/AppButton';
 import { options, Meeting } from '../../Forms/MeetingForm';
 
 const Form = t.form.Form;
 
-export default class EditMeeting extends Component {
-  constructor(props) {
-    super(props);
-    const { params } = props.navigation.state;
+export default class AddMeeting extends Component {
+  constructor() {
+    super();
     this.formRef = createRef();
     this.state = {
-      meeting: params.meeting,
+      meeting: {
+        title: '',
+        description: '',
+      },
     };
   }
 
-  update() {
+  meetingListNavigation(meeting, navigation) {
+    const navigateAction = NavigationActions.navigate({
+      routeName: 'StartScreen',
+      params: { meeting },
+    });
+    navigation.dispatch(navigateAction);
+  }
+
+  save() {
     const validate = this.formRef.current.value;
     if (validate) {
       let data = Object.assign({}, validate);
       //aqui va la peticion de actualizacion
-      Toast.showWithGravity('Meeting Updated', Toast.LONG, Toast.BOTTOM);
-      this.meetingDetailNavigation(this.state.meeting, this.props.navigation);
+      Toast.showWithGravity('Meeting Created', Toast.LONG, Toast.BOTTOM);
+      this.meetingListNavigation(this.state.meeting, this.props.navigation);
     }
-  }
-
-  //navigation to detailed meeting
-  meetingDetailNavigation(meeting, navigation) {
-    const navigateAction = NavigationActions.navigate({
-      routeName: 'MeetingDetailScreen',
-      params: { meeting },
-    });
-    navigation.dispatch(navigateAction);
   }
 
   onChange(meeting) {
@@ -48,7 +49,7 @@ export default class EditMeeting extends Component {
 
     return (
       <View style={styles.container}>
-        <Card title="Edit Meeting">
+        <Card title="Add Meeting">
           <View>
             <Form
               ref={this.formRef}
@@ -60,9 +61,9 @@ export default class EditMeeting extends Component {
           </View>
           <AppButton
             bgColor="rgba(255, 38, 74, 0.9)"
-            title="Update "
+            title="Add "
             action={this.update.bind(this)}
-            iconName="pencil"
+            iconName="plus"
             iconSize={30}
             iconColor="#fff"
           />

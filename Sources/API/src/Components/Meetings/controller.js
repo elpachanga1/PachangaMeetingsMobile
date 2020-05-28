@@ -1,5 +1,7 @@
 //logica de negocios
-const { nanoid } = require('nanoid');
+const {
+  nanoid
+} = require('nanoid');
 const moment = require('moment');
 
 const validateField = require('../../Utils/validateFields');
@@ -95,6 +97,10 @@ module.exports = function (injectedStore) {
     return await store.update(DATA_TABLE_MEETINGS, event);
   }
 
+  async function remove(id) {
+    return await store.remove(DATA_TABLE_MEETINGS, id);
+  }
+
   return {
     list,
     get,
@@ -103,5 +109,6 @@ module.exports = function (injectedStore) {
     meeting_follow,
     meeting_following,
     upload_image,
+    remove
   };
 };

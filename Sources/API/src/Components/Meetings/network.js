@@ -16,6 +16,7 @@ router.get('/:id/following', meeting_following);
 router.post('/', insert);
 router.put('/', update);
 router.post('/:id/image', upload, upload_image);
+router.delete('/:id', get);
 
 //internal functions
 function list(req, res, next) {
@@ -50,13 +51,19 @@ function meeting_follow(req, res, next) {
 
 function meeting_following(req, res, next) {
   Controller.meeting_following(req.params.id)
-    .then((data) => response.success(req, res, data, 201))
+    .then((data) => response.success(req, res, data, 200))
     .catch(next);
 }
 
 function upload_image(req, res, next) {
   Controller.upload_image(req)
     .then((data) => response.success(req, res, data, 201))
+    .catch(next);
+}
+
+function remove(req, res, next) {
+  Controller.remove(req.params.id)
+    .then((user) => response.success(req, res, user, 201))
     .catch(next);
 }
 

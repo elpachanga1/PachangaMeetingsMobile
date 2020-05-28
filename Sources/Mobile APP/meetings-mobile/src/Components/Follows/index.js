@@ -89,7 +89,6 @@ const Follows = (props) => {
             iconSize={30}
             iconColor="#fff"
             setWidth={true}
-            style={styles.button}
           />
         </View>
       )}

@@ -6,20 +6,20 @@ import MeetingsList from './MeetingsList';
 import { MeetingsStoreContext } from '../../Store/MeetingsStore';
 import { UserStoreContext } from '../../Store/UserStore';
 import Preloader from '../General/PreLoader';
+import AppButton from '../General/AppButton';
 
 const Meetings = observer((props) => {
   const meetingsStore = useContext(MeetingsStoreContext);
   const userStore = useContext(UserStoreContext);
-  //sconsole.log(userStore);
 
   //request to get meetings
-  const queryAPI = async () => {
+  const getMeetingsAPI = async () => {
     await meetingsStore.getMeetings();
   };
 
   //lifecicle event
   useEffect(() => {
-    queryAPI();
+    getMeetingsAPI();
   }, []);
 
   //loading meetings (render logic)
@@ -27,13 +27,27 @@ const Meetings = observer((props) => {
     if (meetingsStore.state === 'pending') return <Preloader />;
     else if (meetingsStore.state === 'error')
       return (
-        <Text style={styles.title}>Meetings Not Available, Try Again !!!</Text>
+        <View>
+          <Text style={styles.title}>
+            Meetings Not Available, Try Again !!!
+          </Text>
+          <AppButton
+            bgColor="rgba(255, 38, 74, 0.6)"
+            title="Tap To Retry "
+            action={() => getMeetingsAPI()}
+            iconName="redo"
+            iconSize={30}
+            iconColor="#fff"
+            setWidth={true}
+          />
+        </View>
       );
     else
       return (
         <MeetingsList
           meetings={meetingsStore.meetings}
           navigation={props.navigation}
+          user={userStore.user}
         />
       );
   };
@@ -44,6 +58,7 @@ const Meetings = observer((props) => {
       style={{
         justifyContent: 'center',
         flex: 1,
+        marginBottom: 10,
       }}
     >
       {LoadMeetings()}
