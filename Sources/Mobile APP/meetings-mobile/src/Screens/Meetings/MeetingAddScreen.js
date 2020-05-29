@@ -1,78 +1,90 @@
 /* eslint-disable react/no-string-refs */
-import React, { Component } from 'react';
+import React, { useState, useContext, useRef } from 'react';
 import t from 'tcomb-form-native';
 import { Card } from 'react-native-elements';
 import Toast from 'react-native-simple-toast';
 import { View, StyleSheet } from 'react-native';
 import { NavigationActions } from 'react-navigation';
+import { observer } from 'mobx-react';
+import moment from 'moment';
 
 import AppButton from '../../Components/General/AppButton';
 import { options, Meeting } from '../../Forms/MeetingForm';
+import { MeetingsStoreContext } from '../../Store/MeetingsStore';
+import { UserStoreContext } from '../../Store/UserStore';
 
 const Form = t.form.Form;
 
-export default class AddMeeting extends Component {
-  constructor() {
-    super();
-    this.state = {
-      meeting: {
-        title: '',
-        description: '',
-      },
-    };
-  }
+const AddMeeting = observer((props) => {
+  const meetingStore = useContext(MeetingsStoreContext);
+  const userStore = useContext(UserStoreContext);
 
-  meetingListNavigation(meeting, navigation) {
+  const [meeting, setMeeting] = useState({
+    title: '',
+    description: '',
+  });
+
+  const formRef = useRef(null);
+
+  const meetingListNavigation = (navigation) => {
     const navigateAction = NavigationActions.navigate({
       routeName: 'StartScreen',
-      params: { meeting },
     });
     navigation.dispatch(navigateAction);
-  }
+  };
 
-  save() {
-    const validate = this.refs.form.getValue();
+  const save = async () => {
+    const validate = formRef.current.getValue();
 
     if (validate) {
       let data = Object.assign({}, validate);
-      //aqui va la peticion de actualizacion
-      Toast.showWithGravity('Meeting Created', Toast.LONG, Toast.BOTTOM);
-      //this.meetingListNavigation(this.state.meeting, this.props.navigation);
+
+      data.created_by = userStore.user.user.aud;
+      data.created_date = moment().format('YYYY-MM-DD HH:mm:ss');
+
+      await meetingStore.addMeeting(data);
+
+      if (meetingStore.state === 'done') {
+        Toast.showWithGravity('Meeting Created', Toast.LONG, Toast.BOTTOM);
+        meetingListNavigation(props.navigation);
+      } else {
+        Toast.showWithGravity(
+          'Meeting Couldnt Be Created',
+          Toast.LONG,
+          Toast.BOTTOM
+        );
+      }
     }
-  }
+  };
 
-  onChange(meeting) {
-    this.setState({ meeting });
-  }
+  const onChange = (e) => {
+    setMeeting(e);
+  };
 
-  render() {
-    const { meeting } = this.state;
-
-    return (
-      <View style={styles.container}>
-        <Card title="Add Meeting">
-          <View>
-            <Form
-              ref="form"
-              type={Meeting}
-              options={options}
-              value={meeting}
-              onChange={(v) => this.onChange(v)}
-            />
-          </View>
-          <AppButton
-            bgColor="rgba(255, 38, 74, 0.9)"
-            title="Add "
-            action={this.save.bind(this)}
-            iconName="plus"
-            iconSize={30}
-            iconColor="#fff"
+  return (
+    <View style={styles.container}>
+      <Card title="Add Meeting">
+        <View>
+          <Form
+            ref={formRef}
+            type={Meeting}
+            options={options}
+            value={meeting}
+            onChange={(v) => onChange(v)}
           />
-        </Card>
-      </View>
-    );
-  }
-}
+        </View>
+        <AppButton
+          bgColor="rgba(255, 38, 74, 0.9)"
+          title="Add "
+          action={save}
+          iconName="plus"
+          iconSize={30}
+          iconColor="#fff"
+        />
+      </Card>
+    </View>
+  );
+});
 
 const styles = StyleSheet.create({
   container: {
@@ -80,3 +92,5 @@ const styles = StyleSheet.create({
     padding: 10,
   },
 });
+
+export default AddMeeting;

@@ -10,10 +10,12 @@ export const Meeting = t.struct({
 export const options = {
   fields: {
     title: {
+      name: 'title',
       label: 'Title (*)',
       placeholder: 'Title',
     },
     description: {
+      name: 'description',
       label: 'Description (*)',
       placeholder: 'Description',
       multiline: true,
