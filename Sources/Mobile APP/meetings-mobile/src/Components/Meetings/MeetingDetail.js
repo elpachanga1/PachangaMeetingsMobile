@@ -31,8 +31,15 @@ const manageMeeting = (editMeeting, removeMeeting, meeting) => {
 };
 
 const MeetingDetail = observer((props) => {
-  const { editMeeting, removeMeeting, meeting, user } = props;
+  const { editMeeting, removeMeeting, meeting } = props;
   const userStore = useContext(UserStoreContext);
+
+  let user = userStore.user.user
+    ? {
+        user: userStore.user.user,
+        token: userStore.user.token,
+      }
+    : null;
 
   return (
     <Card
@@ -45,9 +52,8 @@ const MeetingDetail = observer((props) => {
     >
       <Text style={styles.title}>{meeting.title}</Text>
       <Text style={styles.description}>{meeting.description}</Text>
-      {userStore.user.user &&
-        manageMeeting(editMeeting, removeMeeting, meeting)}
-      <Follows id={meeting.id} />
+      {user && manageMeeting(editMeeting, removeMeeting, meeting)}
+      <Follows id={meeting.id} user={user} />
     </Card>
   );
 });
@@ -69,7 +75,7 @@ const styles = StyleSheet.create({
     borderColor: 'transparent',
     borderWidth: 0,
     borderRadius: 5,
-    marginBottom: 5,
+    marginBottom: 15,
     alignSelf: 'center',
     width: 150,
   },

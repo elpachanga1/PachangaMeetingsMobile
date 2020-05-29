@@ -45,11 +45,14 @@ const Follows = (props) => {
   //event to add a new follower
   const addFollow = async () => {
     try {
+      console.log('addFollow');
+      console.log(props);
+
       const follow = {
         meeting_id: props.id,
-        user_id: props.user.id,
-        picture: props.user.picture,
-        nickname: props.user.nickname,
+        user_id: props.user.user.aud,
+        picture: props.user.user.picture,
+        nickname: props.user.user.nickname,
       };
 
       const response = await axios.post(`${backendAPIURL}/follow`, follow);

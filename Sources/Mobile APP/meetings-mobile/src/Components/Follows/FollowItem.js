@@ -11,7 +11,7 @@ export default function FollowItem({ item }) {
       title={item.nickname}
       leftAvatar={{
         source: item.picture
-          ? item.picture
+          ? { uri: item.picture }
           : require('../../../public/no-image-found-360x260.png'),
       }}
     />
