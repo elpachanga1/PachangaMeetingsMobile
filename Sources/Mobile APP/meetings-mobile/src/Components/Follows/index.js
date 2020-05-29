@@ -45,9 +45,6 @@ const Follows = (props) => {
   //event to add a new follower
   const addFollow = async () => {
     try {
-      console.log('addFollow');
-      console.log(props);
-
       const follow = {
         meeting_id: props.id,
         user_id: props.user.user.aud,

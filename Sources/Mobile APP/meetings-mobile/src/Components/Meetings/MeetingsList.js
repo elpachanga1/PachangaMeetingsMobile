@@ -10,6 +10,8 @@ import AppButton from '../General/AppButton';
 
 //function to manage order of boxes in FlatList
 function formatData(data) {
+  data = data.filter((x) => !x.id.includes('blank-'));
+
   const numberOfFullRows = Math.floor(data.length / NUM_COLUMNS);
   let numberOfElementsLastRow = data.length - numberOfFullRows * NUM_COLUMNS;
 
@@ -17,7 +19,7 @@ function formatData(data) {
     numberOfElementsLastRow !== NUM_COLUMNS &&
     numberOfElementsLastRow !== 0
   ) {
-    data.push({ key: `blank-${numberOfElementsLastRow}`, title: null });
+    data.push({ id: `blank-${numberOfElementsLastRow}`, title: null });
     numberOfElementsLastRow = numberOfElementsLastRow + 1;
   }
 

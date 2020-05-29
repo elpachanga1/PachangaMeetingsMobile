@@ -25,9 +25,12 @@ class MeetingsStore {
   async addMeeting(meeting) {
     try {
       this.state = 'pending';
-      await axios.post(backendAPIURL, meeting);
+      const response = await axios.post(backendAPIURL, meeting);
 
-      this.meetings = [...this.meetings, meeting];
+      this.meetings = [
+        ...this.meetings,
+        { ...meeting, id: response.data.body.id },
+      ];
       this.state = 'done';
     } catch (error) {
       console.log(error);
