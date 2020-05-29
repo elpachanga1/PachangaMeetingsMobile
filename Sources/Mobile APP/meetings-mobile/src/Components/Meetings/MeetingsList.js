@@ -48,6 +48,14 @@ const useScreenDimensions = () => {
 const NUM_COLUMNS = 2;
 const MARGIN_HORIZONTAL = 10;
 
+//navigation to detailed meeting
+function addMeeting(navigation) {
+  const navigateAction = NavigationActions.navigate({
+    routeName: 'MeetingAddScreen',
+  });
+  navigation.dispatch(navigateAction);
+}
+
 //default function
 export default function MeetingList(props) {
   const { meetings, navigation, user } = props;
@@ -58,21 +66,13 @@ export default function MeetingList(props) {
   itemWidth = itemWidth - NUM_COLUMNS * MARGIN_HORIZONTAL;
   if (screenData.isLandscape) itemWidth = itemWidth - 40;
 
-  //navigation to detailed meeting
-  function addMeeting(navigation) {
-    const navigateAction = NavigationActions.navigate({
-      routeName: 'MeetingAddScreen',
-    });
-    navigation.dispatch(navigateAction);
-  }
-
   return (
     <SafeAreaView style={styles.container}>
       {user.user ? (
         <AppButton
           bgColor="rgba(255, 38, 74, 0.6)"
           title="Add Meeting "
-          action={addMeeting(navigation)}
+          action={() => addMeeting(navigation)}
           iconName="plus"
           iconSize={30}
           iconColor="#fff"

@@ -1,4 +1,5 @@
-import React, { Component, createRef } from 'react';
+/* eslint-disable react/no-string-refs */
+import React, { Component } from 'react';
 import t from 'tcomb-form-native';
 import { Card } from 'react-native-elements';
 import Toast from 'react-native-simple-toast';
@@ -13,7 +14,6 @@ const Form = t.form.Form;
 export default class AddMeeting extends Component {
   constructor() {
     super();
-    this.formRef = createRef();
     this.state = {
       meeting: {
         title: '',
@@ -31,12 +31,13 @@ export default class AddMeeting extends Component {
   }
 
   save() {
-    const validate = this.formRef.current.value;
+    const validate = this.refs.form.getValue();
+
     if (validate) {
       let data = Object.assign({}, validate);
       //aqui va la peticion de actualizacion
       Toast.showWithGravity('Meeting Created', Toast.LONG, Toast.BOTTOM);
-      this.meetingListNavigation(this.state.meeting, this.props.navigation);
+      //this.meetingListNavigation(this.state.meeting, this.props.navigation);
     }
   }
 
@@ -52,7 +53,7 @@ export default class AddMeeting extends Component {
         <Card title="Add Meeting">
           <View>
             <Form
-              ref={this.formRef}
+              ref="form"
               type={Meeting}
               options={options}
               value={meeting}
