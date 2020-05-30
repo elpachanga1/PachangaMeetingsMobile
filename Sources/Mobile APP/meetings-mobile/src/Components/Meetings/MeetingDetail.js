@@ -52,7 +52,9 @@ const MeetingDetail = observer((props) => {
     >
       <Text style={styles.title}>{meeting.title}</Text>
       <Text style={styles.description}>{meeting.description}</Text>
-      {user && manageMeeting(editMeeting, removeMeeting, meeting)}
+      {user && meeting.created_by === user.user.aud
+        ? manageMeeting(editMeeting, removeMeeting, meeting)
+        : null}
       <Follows id={meeting.id} user={user} />
     </Card>
   );

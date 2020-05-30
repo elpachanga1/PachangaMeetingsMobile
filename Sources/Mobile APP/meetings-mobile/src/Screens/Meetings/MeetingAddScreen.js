@@ -39,10 +39,9 @@ const AddMeeting = observer((props) => {
     if (validate) {
       let data = Object.assign({}, validate);
 
-      data.created_by = userStore.user.user.aud;
-      data.created_date = moment().format('YYYY-MM-DD HH:mm:ss');
+      data.user_id = userStore.user.user.aud;
 
-      await meetingStore.addMeeting(data);
+      await meetingStore.addMeeting(data, userStore.user.token);
 
       if (meetingStore.state === 'done') {
         Toast.showWithGravity('Meeting Created', Toast.LONG, Toast.BOTTOM);

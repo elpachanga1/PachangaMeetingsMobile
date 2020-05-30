@@ -27,11 +27,6 @@ const Follows = (props) => {
     }
   };
 
-  //lifecicle event
-  useEffect(() => {
-    getFollowsPerID(props.id);
-  }, []);
-
   //loading follows (render logic)
   const LoadFollows = () => {
     if (status === 'pending') return <Preloader />;
@@ -52,7 +47,15 @@ const Follows = (props) => {
         nickname: props.user.user.nickname,
       };
 
-      const response = await axios.post(`${backendAPIURL}/follow`, follow);
+      const config = {
+        headers: { Authorization: `Bearer ${props.user.token}` },
+      };
+
+      const response = await axios.post(
+        `${backendAPIURL}/follow`,
+        follow,
+        config
+      );
 
       console.log(response);
 
@@ -69,6 +72,15 @@ const Follows = (props) => {
     }
   };
 
+  //lifecicle event
+  useEffect(() => {
+    getFollowsPerID(props.id);
+  }, []);
+
+  const visibilityAddButton =
+    props.user &&
+    follows.filter((x) => x.user_id === props.user.user.aud).length === 0;
+
   //final return (render)
   return (
     <View
@@ -79,7 +91,7 @@ const Follows = (props) => {
     >
       <Text style={styles.title}>Follows</Text>
 
-      {props.user && (
+      {visibilityAddButton && (
         <View style={styles.buttonContext}>
           <AppButton
             bgColor="rgba(255, 38, 74, 0.6)"

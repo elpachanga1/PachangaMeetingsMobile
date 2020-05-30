@@ -22,10 +22,15 @@ class MeetingsStore {
   }
 
   @action
-  async addMeeting(meeting) {
+  async addMeeting(meeting, token) {
     try {
       this.state = 'pending';
-      const response = await axios.post(backendAPIURL, meeting);
+
+      const config = {
+        headers: { Authorization: `Bearer ${token}` },
+      };
+
+      const response = await axios.post(backendAPIURL, meeting, config);
 
       this.meetings = [
         ...this.meetings,
@@ -42,7 +47,12 @@ class MeetingsStore {
   async editMeeting(meeting) {
     try {
       this.state = 'pending';
-      await axios.put(backendAPIURL, meeting);
+
+      const config = {
+        headers: { Authorization: `Bearer ${token}` },
+      };
+
+      await axios.put(backendAPIURL, meeting, config);
 
       let newMeetings = this.meetings.filter((x) => x.id !== meeting.id);
       this.meetings = [newMeetings, meeting];
@@ -57,7 +67,12 @@ class MeetingsStore {
   async removeMeeting(meeting) {
     try {
       this.state = 'pending';
-      await axios.put(backendAPIURL, meeting);
+
+      const config = {
+        headers: { Authorization: `Bearer ${token}` },
+      };
+
+      await axios.put(backendAPIURL, meeting, config);
 
       this.meetings = this.meetings.filter((x) => x.id !== meeting.id);
       this.state = 'done';
