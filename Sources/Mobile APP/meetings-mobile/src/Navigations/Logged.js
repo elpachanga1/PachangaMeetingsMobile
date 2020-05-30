@@ -8,6 +8,7 @@ import LogoutScreen from '../Screens/Authentication/LogoutScreen';
 import MeetingDetailScreen from '../Screens/Meetings/MeetingDetailScreen';
 import MeetingEditScreen from '../Screens/Meetings/MeetingEditScreen';
 import MeetingAddScreen from '../Screens/Meetings/MeetingAddScreen';
+import MeetingRemoveScreen from '../Screens/Meetings/MeetingRemoveScreen';
 
 //navigation options (some default styles)
 const navigationOptions = {
@@ -77,6 +78,12 @@ const MeetingScreenStack = createStackNavigator(
       navigationOptions: ({ navigation }) => ({
         title: 'Add Meeting',
         headerLeft: rightIcon(navigation, 'arrow-left'),
+      }),
+    },
+    MeetingRemoveScreen: {
+      screen: MeetingRemoveScreen,
+      navigationOptions: () => ({
+        title: 'Remove Meeting',
       }),
     },
   },

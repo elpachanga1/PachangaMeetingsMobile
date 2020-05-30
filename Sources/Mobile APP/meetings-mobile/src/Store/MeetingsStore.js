@@ -44,7 +44,7 @@ class MeetingsStore {
   }
 
   @action
-  async editMeeting(meeting) {
+  async editMeeting(meeting, token) {
     try {
       this.state = 'pending';
 
@@ -54,8 +54,17 @@ class MeetingsStore {
 
       await axios.put(backendAPIURL, meeting, config);
 
-      let newMeetings = this.meetings.filter((x) => x.id !== meeting.id);
-      this.meetings = [newMeetings, meeting];
+      let newMeetings = this.meetings.map((x) => {
+        return x.id === meeting.meeting_id
+          ? {
+              ...x,
+              title: meeting.title,
+              description: meeting.description,
+            }
+          : x;
+      });
+
+      this.meetings = newMeetings;
       this.state = 'done';
     } catch (error) {
       console.log(error);
@@ -64,7 +73,7 @@ class MeetingsStore {
   }
 
   @action
-  async removeMeeting(meeting) {
+  async removeMeeting(meeting, token) {
     try {
       this.state = 'pending';
 
@@ -72,7 +81,7 @@ class MeetingsStore {
         headers: { Authorization: `Bearer ${token}` },
       };
 
-      await axios.put(backendAPIURL, meeting, config);
+      await axios.delete(`${backendAPIURL}/${meeting.id}`, config);
 
       this.meetings = this.meetings.filter((x) => x.id !== meeting.id);
       this.state = 'done';

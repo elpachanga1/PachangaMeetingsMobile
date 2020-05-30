@@ -1,17 +1,36 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { Card, Text } from 'react-native-elements';
 import { StyleSheet, View, Button } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { observer } from 'mobx-react';
+import { NavigationActions } from 'react-navigation';
 
 import { UserStoreContext } from '../../Store/UserStore';
 import Follows from '../Follows';
 
-const manageMeeting = (editMeeting, removeMeeting, meeting) => {
+//navigation to edit meeting
+function editMeeting(meeting, navigation) {
+  const navigateAction = NavigationActions.navigate({
+    routeName: 'MeetingEditScreen',
+    params: { meeting },
+  });
+  navigation.dispatch(navigateAction);
+}
+
+//navigation to edit meeting
+function removeMeeting(meeting, navigation) {
+  const navigateAction = NavigationActions.navigate({
+    routeName: 'MeetingRemoveScreen',
+    params: { meeting },
+  });
+  navigation.dispatch(navigateAction);
+}
+
+const manageMeeting = (meeting, navigation) => {
   return (
     <View>
       <Button
-        onPress={editMeeting(meeting)}
+        onPress={() => editMeeting(meeting, navigation)}
         buttonStyle={styles.buttons}
         title="Edit "
         icon={<Icon name="pencil" size={15} color="#fff" />}
@@ -19,7 +38,7 @@ const manageMeeting = (editMeeting, removeMeeting, meeting) => {
         iconRight={true}
       />
       <Button
-        onPress={removeMeeting(meeting)}
+        onPress={() => removeMeeting(meeting, navigation)}
         buttonStyle={styles.buttons}
         title="Remove "
         icon={<Icon name="trash" size={15} color="#fff" />}
@@ -31,7 +50,7 @@ const manageMeeting = (editMeeting, removeMeeting, meeting) => {
 };
 
 const MeetingDetail = observer((props) => {
-  const { editMeeting, removeMeeting, meeting } = props;
+  const { meeting, navigation } = props;
   const userStore = useContext(UserStoreContext);
 
   let user = userStore.user.user
@@ -53,7 +72,7 @@ const MeetingDetail = observer((props) => {
       <Text style={styles.title}>{meeting.title}</Text>
       <Text style={styles.description}>{meeting.description}</Text>
       {user && meeting.created_by === user.user.aud
-        ? manageMeeting(editMeeting, removeMeeting, meeting)
+        ? manageMeeting(meeting, navigation)
         : null}
       <Follows id={meeting.id} user={user} />
     </Card>

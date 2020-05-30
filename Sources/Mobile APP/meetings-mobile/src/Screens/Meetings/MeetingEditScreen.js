@@ -1,76 +1,83 @@
-import React, { Component, createRef } from 'react';
+import React, { useState, useContext, useRef } from 'react';
 import t from 'tcomb-form-native';
 import { Card } from 'react-native-elements';
 import Toast from 'react-native-simple-toast';
 import { View, StyleSheet } from 'react-native';
 import { NavigationActions } from 'react-navigation';
+import { observer } from 'mobx-react';
 
 import AppButton from '../../Components/General/AppButton';
 import { options, Meeting } from '../../Forms/MeetingForm';
+import { MeetingsStoreContext } from '../../Store/MeetingsStore';
+import { UserStoreContext } from '../../Store/UserStore';
 
 const Form = t.form.Form;
 
-export default class EditMeeting extends Component {
-  constructor(props) {
-    super(props);
-    const { params } = props.navigation.state;
-    this.formRef = createRef();
-    this.state = {
-      meeting: params.meeting,
-    };
-  }
+const EditMeeting = observer((props) => {
+  const meetingStore = useContext(MeetingsStoreContext);
+  const userStore = useContext(UserStoreContext);
 
-  update() {
-    const validate = this.formRef.current.value;
-    if (validate) {
-      let data = Object.assign({}, validate);
-      //aqui va la peticion de actualizacion
-      Toast.showWithGravity('Meeting Updated', Toast.LONG, Toast.BOTTOM);
-      this.meetingDetailNavigation(this.state.meeting, this.props.navigation);
-    }
-  }
+  const formRef = useRef(null);
+  const [meeting, setMeeting] = useState(props.navigation.getParam('meeting'));
 
-  //navigation to detailed meeting
-  meetingDetailNavigation(meeting, navigation) {
+  const meetingListNavigation = (navigation) => {
     const navigateAction = NavigationActions.navigate({
-      routeName: 'MeetingDetailScreen',
-      params: { meeting },
+      routeName: 'StartScreen',
     });
     navigation.dispatch(navigateAction);
-  }
+  };
 
-  onChange(meeting) {
-    this.setState({ meeting });
-  }
+  const update = async () => {
+    const validate = formRef.current.getValue();
 
-  render() {
-    const { meeting } = this.state;
+    if (validate) {
+      let data = Object.assign({}, validate);
+      data.user_id = userStore.user.user.aud;
+      data.meeting_id = meeting.id;
 
-    return (
-      <View style={styles.container}>
-        <Card title="Edit Meeting">
-          <View>
-            <Form
-              ref={this.formRef}
-              type={Meeting}
-              options={options}
-              value={meeting}
-              onChange={(v) => this.onChange(v)}
-            />
-          </View>
-          <AppButton
-            bgColor="rgba(255, 38, 74, 0.9)"
-            title="Update "
-            action={this.update.bind(this)}
-            iconName="pencil"
-            iconSize={30}
-            iconColor="#fff"
+      await meetingStore.editMeeting(data, userStore.user.token);
+
+      if (meetingStore.state === 'done') {
+        Toast.showWithGravity('Meeting Editted', Toast.LONG, Toast.BOTTOM);
+        meetingListNavigation(props.navigation);
+      } else {
+        Toast.showWithGravity(
+          'Meeting Couldnt Be Editted',
+          Toast.LONG,
+          Toast.BOTTOM
+        );
+      }
+    }
+  };
+
+  const onChange = (e) => {
+    setMeeting(e);
+  };
+
+  return (
+    <View style={styles.container}>
+      <Card title="Edit Meeting">
+        <View>
+          <Form
+            ref={formRef}
+            type={Meeting}
+            options={options}
+            value={meeting}
+            onChange={(v) => onChange(v)}
           />
-        </Card>
-      </View>
-    );
-  }
-}
+        </View>
+        <AppButton
+          bgColor="rgba(255, 38, 74, 0.9)"
+          title="Update "
+          action={update}
+          iconName="pencil"
+          iconSize={30}
+          iconColor="#fff"
+        />
+      </Card>
+    </View>
+  );
+});
 
 const styles = StyleSheet.create({
   container: {
@@ -78,3 +85,5 @@ const styles = StyleSheet.create({
     padding: 10,
   },
 });
+
+export default EditMeeting;

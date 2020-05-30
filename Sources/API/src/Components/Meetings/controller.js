@@ -39,6 +39,7 @@ module.exports = function (injectedStore) {
       created_date: moment().format('YYYY-MM-DD HH:mm:ss'),
       latitude: body.latitude,
       longitude: body.longitude,
+      active: true,
       id: nanoid(),
     };
 

@@ -1,50 +1,27 @@
 import React, { Component } from 'react';
-import { NavigationActions } from 'react-navigation';
 import { ScrollView } from 'react-native';
 import MeetingDetail from '../../Components/Meetings/MeetingDetail';
 
 export default class DetailMeeting extends Component {
   constructor(props) {
     super(props);
-    const { params } = props.navigation.state;
 
     this.state = {
-      meeting: params.meeting,
+      meeting: props.navigation.getParam('meeting'),
     };
   }
 
-  editMeeting() {
-    const navigateAction = NavigationActions.navigate({
-      routeName: 'EditMeeting',
-      params: { meeting: this.state.meeting },
-    });
-    this.props.navigation.dispatch(navigateAction);
-  }
-
-  removeMeeting() {
-    const navigateAction = NavigationActions.navigate({
-      routeName: 'RemoveMeeting',
-      params: { meeting: this.state.meeting },
-    });
-    this.props.navigation.dispatch(navigateAction);
-  }
-
-  goHome() {
-    const navigateAction = NavigationActions.navigate({
-      routeName: 'StartScreen',
-    });
-    this.props.navigation.dispatch(navigateAction);
+  // eslint-disable-next-line react/no-deprecated
+  componentWillMount() {
+    this.setState(this.props.navigation.getParam('meeting'));
   }
 
   render() {
-    const { meeting } = this.state;
     return (
       <ScrollView>
         <MeetingDetail
-          goHome={this.goHome.bind(this)}
-          editMeeting={this.editMeeting.bind(this)}
-          removeMeeting={this.removeMeeting.bind(this)}
-          meeting={meeting}
+          meeting={this.state.meeting}
+          navigation={this.props.navigation}
         />
       </ScrollView>
     );

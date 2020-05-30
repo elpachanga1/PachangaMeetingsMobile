@@ -10,7 +10,11 @@ import AppButton from '../General/AppButton';
 
 //function to manage order of boxes in FlatList
 function formatData(data) {
-  data = data.filter((x) => !x.id.includes('blank-'));
+  try {
+    data = data.filter((x) => !x.id.includes('blank-'));
+  } catch (error) {
+    console.log(error);
+  }
 
   const numberOfFullRows = Math.floor(data.length / NUM_COLUMNS);
   let numberOfElementsLastRow = data.length - numberOfFullRows * NUM_COLUMNS;

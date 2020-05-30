@@ -6,7 +6,6 @@ import Toast from 'react-native-simple-toast';
 import { View, StyleSheet } from 'react-native';
 import { NavigationActions } from 'react-navigation';
 import { observer } from 'mobx-react';
-import moment from 'moment';
 
 import AppButton from '../../Components/General/AppButton';
 import { options, Meeting } from '../../Forms/MeetingForm';
@@ -38,7 +37,6 @@ const AddMeeting = observer((props) => {
 
     if (validate) {
       let data = Object.assign({}, validate);
-
       data.user_id = userStore.user.user.aud;
 
       await meetingStore.addMeeting(data, userStore.user.token);

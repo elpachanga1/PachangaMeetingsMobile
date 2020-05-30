@@ -51,13 +51,7 @@ const Follows = (props) => {
         headers: { Authorization: `Bearer ${props.user.token}` },
       };
 
-      const response = await axios.post(
-        `${backendAPIURL}/follow`,
-        follow,
-        config
-      );
-
-      console.log(response);
+      await axios.post(`${backendAPIURL}/follow`, follow, config);
 
       setFollows([...follows, follow]);
 
