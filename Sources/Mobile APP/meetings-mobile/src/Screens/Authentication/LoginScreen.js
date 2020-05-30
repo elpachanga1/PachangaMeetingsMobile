@@ -55,6 +55,7 @@ const Login = observer(({ navigation }) => {
       if (result.type === 'success') {
         // Retrieve the JWT token and decode it
         const token = result.params.id_token;
+        console.log(token);
         const decoded = jwtDecode(token);
         console.log(decoded);
 

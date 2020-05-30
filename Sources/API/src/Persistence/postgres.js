@@ -131,14 +131,20 @@ function query(table, query, join) {
 
 function remove(table, id) {
   return new Promise((resolve, reject) => {
-    connection.query(
-      `DELETE FROM ${table} WHERE id = '${id}'`,
-      (error, result) => {
-        if (error) return reject(error);
+    const query = `UPDATE ${table} SET ACTIVE = FALSE WHERE id = '${
+      id
+    }'`;
+    console.log(query);
 
-        resolve(result.rows);
-      }
-    );
+    connection.query(query, (error, result) => {
+      if (error) return reject(error);
+
+      resolve({
+        command: 'DELETE',
+        rowCount: result.rowCount,
+        id: id
+      });
+    });
   });
 }
 

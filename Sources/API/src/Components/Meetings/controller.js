@@ -17,7 +17,11 @@ module.exports = function (injectedStore) {
   }
 
   async function list() {
-    return await store.list(DATA_TABLE_MEETINGS);
+    const query = {
+      active: true
+    };
+
+    return await store.query(DATA_TABLE_MEETINGS, query);
   }
 
   async function get(id) {
@@ -25,12 +29,13 @@ module.exports = function (injectedStore) {
   }
 
   async function insert(body) {
+    validateField('user_id', body.user_id);
+
     const event = {
       title: body.title,
       description: body.description,
-      //picture: body.picture,
       location_name: body.location_name,
-      created_by: body.created_by,
+      created_by: body.user.aud,
       created_date: moment().format('YYYY-MM-DD HH:mm:ss'),
       latitude: body.latitude,
       longitude: body.longitude,
@@ -42,15 +47,15 @@ module.exports = function (injectedStore) {
 
   //funcion para crear sesiones ante el controller de sesiones
   async function update(body) {
-    validateField('event_id', body.event_id);
+    validateField('meeting_id', body.meeting_id);
+    validateField('user_id', body.user_id);
 
     const event = {
-      id: body.event_id,
+      id: body.meeting_id,
     };
 
     if (body.title) event.title = body.title;
     if (body.description) event.description = body.description;
-    //if (body.picture) event.picture = body.picture;
     if (body.location_name) event.location_name = body.location_name;
     if (body.latitude) event.latitude = body.latitude;
     if (body.longitude) event.longitude = body.longitude;
@@ -61,15 +66,14 @@ module.exports = function (injectedStore) {
   async function meeting_follow(body) {
     validateField('meeting_id', body.meeting_id);
     validateField('user_id', body.user_id);
-    validateField('nickname', body.nickname);
 
     let event = {
       meeting_id: body.meeting_id,
-      user_id: body.user_id,
-      nickname: body.nickname,
+      user_id: body.user.aud,
+      nickname: body.user.nickname,
     };
 
-    if (body.picture) event.picture = body.picture;
+    if (body.user.picture) event.picture = body.user.picture;
 
     return await store.insert(DATA_TABLE_MEETINGS_FOLLOW, event);
   }

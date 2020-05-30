@@ -5,18 +5,19 @@ const Controller = require('./index');
 const response = require('../../Entities/response');
 
 const upload = require('../../Utils/uploadImage');
+const secure = require('../../Auth/secure');
 
 const router = express.Router();
 
 //Routes
 router.get('/', list);
 router.get('/:id', get);
-router.post('/follow', meeting_follow);
+router.post('/follow', secure('update'), meeting_follow);
 router.get('/:id/following', meeting_following);
-router.post('/', insert);
-router.put('/', update);
+router.post('/', secure('update'), insert);
+router.put('/', secure('update'), update);
 router.post('/:id/image', upload, upload_image);
-router.delete('/:id', get);
+router.delete('/:id', secure('create'), remove);
 
 //internal functions
 function list(req, res, next) {
