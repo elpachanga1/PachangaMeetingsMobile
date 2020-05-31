@@ -8,6 +8,8 @@ import { NavigationActions } from 'react-navigation';
 import { observer } from 'mobx-react';
 
 import AppButton from '../../Components/General/AppButton';
+import CameraManager from '../../Components/Image/CameraManagerV2';
+
 import { options, Meeting } from '../../Forms/MeetingForm';
 import { MeetingsStoreContext } from '../../Store/MeetingsStore';
 import { UserStoreContext } from '../../Store/UserStore';
@@ -18,6 +20,7 @@ const AddMeeting = observer((props) => {
   const meetingStore = useContext(MeetingsStoreContext);
   const userStore = useContext(UserStoreContext);
 
+  const [picture, setPicture] = useState('');
   const [meeting, setMeeting] = useState({
     title: '',
     description: '',
@@ -39,7 +42,9 @@ const AddMeeting = observer((props) => {
       let data = Object.assign({}, validate);
       data.user_id = userStore.user.user.aud;
 
-      await meetingStore.addMeeting(data, userStore.user.token);
+      if (picture) data.picture = picture;
+
+      await meetingStore.addMeeting(userStore.user.token, data, picture);
 
       if (meetingStore.state === 'done') {
         Toast.showWithGravity('Meeting Created', Toast.LONG, Toast.BOTTOM);
@@ -70,15 +75,16 @@ const AddMeeting = observer((props) => {
             onChange={(v) => onChange(v)}
           />
         </View>
-        <AppButton
-          bgColor="rgba(255, 38, 74, 0.9)"
-          title="Add "
-          action={save}
-          iconName="plus"
-          iconSize={30}
-          iconColor="#fff"
-        />
       </Card>
+      <CameraManager setPicture={setPicture} />
+      <AppButton
+        bgColor="rgba(255, 38, 74, 0.9)"
+        title="Add "
+        action={save}
+        iconName="plus"
+        iconSize={30}
+        iconColor="#fff"
+      />
     </View>
   );
 });

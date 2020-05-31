@@ -1,14 +1,14 @@
-import React from 'react';
-import { StyleSheet, Text, TouchableOpacity, View, Image } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, Text, View, Image } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import * as Permissions from 'expo-permissions';
+import AppButton from '../General/AppButton';
 
-export default class CameraManager extends React.Component {
-  state = {
-    image: null,
-  };
+const CameraManager = (props) => {
+  const [image, setImage] = useState(null);
 
-  selectPicture = async () => {
+  const selectPicture = async () => {
+    console.log('select picture');
     try {
       await Permissions.askAsync(Permissions.CAMERA);
       let result = await ImagePicker.launchImageLibraryAsync({
@@ -17,7 +17,10 @@ export default class CameraManager extends React.Component {
         aspect: [4, 3],
         quality: 1,
       });
-      if (!result.cancelled) this.setState({ image: result.uri });
+      if (!result.cancelled) {
+        setImage(result.uri);
+        props.setPicture(result.uri);
+      }
 
       console.log(result);
     } catch (error) {
@@ -25,13 +28,20 @@ export default class CameraManager extends React.Component {
     }
   };
 
-  takePicture = async () => {
+  const takePicture = async () => {
+    console.log('take picture');
     try {
       await Permissions.askAsync(Permissions.CAMERA);
       let result = await ImagePicker.launchCameraAsync({
-        allowsEditing: false,
+        mediaTypes: ImagePicker.MediaTypeOptions.All,
+        allowsEditing: true,
+        aspect: [4, 3],
+        quality: 1,
       });
-      if (!result.cancelled) this.setState({ image: result.uri });
+      if (!result.cancelled) {
+        setImage(result.uri);
+        props.setPicture(result.uri);
+      }
 
       console.log(result);
     } catch (error) {
@@ -39,26 +49,37 @@ export default class CameraManager extends React.Component {
     }
   };
 
-  render() {
-    return (
-      <View style={styles.container}>
-        {this.state.image && (
-          <Image style={styles.image} source={{ uri: this.state.image }} />
-        )}
-        <View style={styles.row}>
-          <Button onPress={this.selectPicture}>Gallery</Button>
-          <Button onPress={this.takePicture}>Camera</Button>
-        </View>
+  return (
+    <View style={styles.container}>
+      {image ? (
+        <Image style={styles.image} source={{ uri: image }} />
+      ) : (
+        <Text style={styles.text}>There Is Not an Image Yet</Text>
+      )}
+      <View style={styles.row}>
+        <AppButton
+          bgColor="rgba(255, 38, 74, 0.9)"
+          title="Gallery "
+          action={() => selectPicture()}
+          iconName="image"
+          iconSize={30}
+          iconColor="#fff"
+        />
+        <View style={{ width: 50 }} />
+        <AppButton
+          bgColor="rgba(255, 38, 74, 0.9)"
+          title="Camera "
+          action={() => takePicture()}
+          iconName="camera"
+          iconSize={30}
+          iconColor="#fff"
+        />
       </View>
-    );
-  }
-}
+    </View>
+  );
+};
 
-const Button = ({ onPress, children }) => (
-  <TouchableOpacity style={styles.button} onPress={onPress}>
-    <Text style={styles.text}>{children}</Text>
-  </TouchableOpacity>
-);
+export default CameraManager;
 
 const styles = StyleSheet.create({
   text: {
@@ -66,15 +87,10 @@ const styles = StyleSheet.create({
   },
   row: { flexDirection: 'row' },
   image: { width: 300, height: 300, backgroundColor: 'gray' },
-  button: {
-    padding: 13,
-    margin: 15,
-    backgroundColor: '#dddddd',
-  },
   container: {
     flex: 1,
-    backgroundColor: '#ffffff',
     alignItems: 'center',
     justifyContent: 'center',
+    marginVertical: 50,
   },
 });

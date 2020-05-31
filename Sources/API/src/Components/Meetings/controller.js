@@ -99,7 +99,12 @@ module.exports = function (injectedStore) {
 
     if (req.meeting && req.meeting.picture) deleteFile(req.meeting.picture);
 
-    return await store.update(DATA_TABLE_MEETINGS, event);
+    const response = await store.update(DATA_TABLE_MEETINGS, event);
+
+    return {
+      ...response,
+      picture
+    }
   }
 
   async function remove(id) {

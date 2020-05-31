@@ -22,7 +22,7 @@ class MeetingsStore {
   }
 
   @action
-  async addMeeting(meeting, token) {
+  async addMeeting(token, meeting, picture) {
     try {
       this.state = 'pending';
 
@@ -30,12 +30,29 @@ class MeetingsStore {
         headers: { Authorization: `Bearer ${token}` },
       };
 
-      const response = await axios.post(backendAPIURL, meeting, config);
+      let response = await axios.post(backendAPIURL, meeting, config);
 
-      this.meetings = [
-        ...this.meetings,
-        { ...meeting, id: response.data.body.id },
-      ];
+      let newMeeting = { ...meeting, id: response.data.body.id };
+
+      if (picture) {
+        // eslint-disable-next-line no-undef
+        let formData = new FormData();
+        formData.append('image', picture);
+
+        response = await axios.post(
+          `${backendAPIURL}/${backendAPIURL}/image`,
+          formData,
+          {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+            },
+          }
+        );
+
+        newMeeting.picture = response.data.body.picture;
+      }
+
+      this.meetings = [...this.meetings, newMeeting];
       this.state = 'done';
     } catch (error) {
       console.log(error);

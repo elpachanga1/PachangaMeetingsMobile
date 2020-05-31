@@ -1,8 +1,9 @@
 import React, { useContext } from 'react';
-import { Alert, StyleSheet, View, Button } from 'react-native';
+import { Alert, StyleSheet, View } from 'react-native';
 import { NavigationActions } from 'react-navigation';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { observer } from 'mobx-react';
+import AppButton from '../General/AppButton';
 
 import { MeetingsStoreContext } from '../../Store/MeetingsStore';
 
@@ -45,22 +46,23 @@ const MeetingCommands = observer((props) => {
   };
 
   return (
-    <View>
-      <Button
-        onPress={() => editMeeting(meeting, navigation)}
-        buttonStyle={styles.buttons}
+    <View style={styles.row}>
+      <AppButton
+        bgColor="rgba(255, 38, 74, 0.9)"
         title="Edit "
-        icon={<Icon name="pencil" size={15} color="#fff" />}
-        text="Edit "
-        iconRight={true}
+        action={() => editMeeting(meeting, navigation)}
+        iconName="pencil"
+        iconSize={30}
+        iconColor="#fff"
       />
-      <Button
-        onPress={() => removeMeetingAlert(meeting, token, navigation)}
-        buttonStyle={styles.buttons}
+      <View style={{ width: 50 }} />
+      <AppButton
+        bgColor="rgba(255, 38, 74, 0.9)"
         title="Remove "
-        icon={<Icon name="trash" size={15} color="#fff" />}
-        text="Remove "
-        iconRight={true}
+        action={() => removeMeetingAlert(meeting, token, navigation)}
+        iconName="trash"
+        iconSize={30}
+        iconColor="#fff"
       />
     </View>
   );
@@ -69,14 +71,10 @@ const MeetingCommands = observer((props) => {
 export default MeetingCommands;
 
 const styles = StyleSheet.create({
-  buttons: {
-    backgroundColor: 'rgba(255, 38, 74, 0.6)',
-    height: 45,
-    borderColor: 'transparent',
-    borderWidth: 0,
-    borderRadius: 5,
-    marginBottom: 15,
-    alignSelf: 'center',
-    width: 150,
+  row: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row',
   },
 });
