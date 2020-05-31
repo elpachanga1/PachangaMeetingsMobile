@@ -1,7 +1,9 @@
+/* eslint-disable no-undef */
 import { observable, action } from 'mobx';
 import { createContext } from 'react';
 import { backendAPIURL } from '../../config';
 import axios from 'axios';
+import FormData from 'form-data';
 
 class MeetingsStore {
   @observable meetings = [];
@@ -35,13 +37,16 @@ class MeetingsStore {
       let newMeeting = { ...meeting, id: response.data.body.id };
 
       if (picture) {
-        // eslint-disable-next-line no-undef
-        let formData = new FormData();
-        formData.append('image', picture);
+        const data = new FormData();
+        data.append('image', {
+          uri: picture,
+          name: `picture.${picture.split('.').pop()}`,
+          type: `image/${picture.split('.').pop()}`,
+        });
 
         response = await axios.post(
           `${backendAPIURL}/${response.data.body.id}/image`,
-          formData,
+          data,
           config
         );
 

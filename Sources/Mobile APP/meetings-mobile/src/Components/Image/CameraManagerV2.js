@@ -20,6 +20,7 @@ const CameraManager = (props) => {
         setImage(result.uri);
         props.setPicture(result.uri);
       }
+      console.log(result);
     } catch (error) {
       console.log(error);
     }
@@ -38,6 +39,7 @@ const CameraManager = (props) => {
         setImage(result.uri);
         props.setPicture(result.uri);
       }
+      console.log(result);
     } catch (error) {
       console.log(error);
     }
