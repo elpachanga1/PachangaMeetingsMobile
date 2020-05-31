@@ -35,7 +35,7 @@ const Meetings = observer((props) => {
             bgColor="rgba(255, 38, 74, 0.6)"
             title="Tap To Retry "
             action={() => getMeetingsAPI()}
-            iconName="redo"
+            iconName="refresh"
             iconSize={30}
             iconColor="#fff"
             setWidth={true}
