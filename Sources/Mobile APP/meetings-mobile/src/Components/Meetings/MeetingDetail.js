@@ -1,53 +1,11 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import { Card, Text } from 'react-native-elements';
-import { StyleSheet, View, Button } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import { StyleSheet } from 'react-native';
 import { observer } from 'mobx-react';
-import { NavigationActions } from 'react-navigation';
 
 import { UserStoreContext } from '../../Store/UserStore';
 import Follows from '../Follows';
-
-//navigation to edit meeting
-function editMeeting(meeting, navigation) {
-  const navigateAction = NavigationActions.navigate({
-    routeName: 'MeetingEditScreen',
-    params: { meeting },
-  });
-  navigation.dispatch(navigateAction);
-}
-
-//navigation to edit meeting
-function removeMeeting(meeting, navigation) {
-  const navigateAction = NavigationActions.navigate({
-    routeName: 'MeetingRemoveScreen',
-    params: { meeting },
-  });
-  navigation.dispatch(navigateAction);
-}
-
-const manageMeeting = (meeting, navigation) => {
-  return (
-    <View>
-      <Button
-        onPress={() => editMeeting(meeting, navigation)}
-        buttonStyle={styles.buttons}
-        title="Edit "
-        icon={<Icon name="pencil" size={15} color="#fff" />}
-        text="Edit "
-        iconRight={true}
-      />
-      <Button
-        onPress={() => removeMeeting(meeting, navigation)}
-        buttonStyle={styles.buttons}
-        title="Remove "
-        icon={<Icon name="trash" size={15} color="#fff" />}
-        text="Remove "
-        iconRight={true}
-      />
-    </View>
-  );
-};
+import MeetingCommands from './MeetingCommands';
 
 const MeetingDetail = observer((props) => {
   const { meeting, navigation } = props;
@@ -71,9 +29,13 @@ const MeetingDetail = observer((props) => {
     >
       <Text style={styles.title}>{meeting.title}</Text>
       <Text style={styles.description}>{meeting.description}</Text>
-      {user && meeting.created_by === user.user.aud
-        ? manageMeeting(meeting, navigation)
-        : null}
+      {user && meeting.created_by === user.user.aud ? (
+        <MeetingCommands
+          meeting={meeting}
+          token={user.token}
+          navigation={navigation}
+        />
+      ) : null}
       <Follows id={meeting.id} user={user} />
     </Card>
   );
