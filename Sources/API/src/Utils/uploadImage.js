@@ -3,7 +3,10 @@ const multer = require('multer');
 const fs = require('fs');
 const store = require('../Persistence/postgres');
 
-const { IMAGE_PATH, IMAGE_MAX_SIZE } = process.env;
+const {
+  IMAGE_PATH,
+  IMAGE_MAX_SIZE
+} = process.env;
 
 const DATA_TABLE_MEETINGS = 'meetings';
 

@@ -37,20 +37,24 @@ class MeetingsStore {
       let newMeeting = { ...meeting, id: response.data.body.id };
 
       if (picture) {
-        const data = new FormData();
-        data.append('image', {
+        let formData = new FormData();
+        // Assume "photo" is the name of the form field the server expects
+        formData.append('file', {
           uri: picture,
-          name: `picture.${picture.split('.').pop()}`,
+          name: `image.${picture.split('.').pop()}`,
           type: `image/${picture.split('.').pop()}`,
         });
 
-        response = await axios.post(
-          `${backendAPIURL}/${response.data.body.id}/image`,
-          data,
-          config
-        );
-
-        newMeeting.picture = response.data.body.picture;
+        await fetch(`${backendAPIURL}/${response.data.body.id}/image`, {
+          method: 'POST',
+          body: formData,
+          headers: {
+            'content-type': 'multipart/form-data',
+            Authorization: `Bearer ${token}`,
+          },
+        }).then(() => {
+          newMeeting.picture = response.data.body.picture;
+        });
       }
 
       this.meetings = [...this.meetings, newMeeting];
