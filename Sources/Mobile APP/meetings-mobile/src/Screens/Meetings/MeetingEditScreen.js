@@ -7,6 +7,8 @@ import { NavigationActions } from 'react-navigation';
 import { observer } from 'mobx-react';
 
 import AppButton from '../../Components/General/AppButton';
+import CameraManager from '../../Components/Image/CameraManagerV2';
+
 import { options, Meeting } from '../../Forms/MeetingForm';
 import { MeetingsStoreContext } from '../../Store/MeetingsStore';
 import { UserStoreContext } from '../../Store/UserStore';
@@ -18,6 +20,7 @@ const EditMeeting = observer((props) => {
   const userStore = useContext(UserStoreContext);
 
   const formRef = useRef(null);
+  const [picture, setPicture] = useState('');
   const [meeting, setMeeting] = useState(props.navigation.getParam('meeting'));
 
   const meetingListNavigation = (navigation) => {
@@ -35,7 +38,9 @@ const EditMeeting = observer((props) => {
       data.user_id = userStore.user.user.aud;
       data.meeting_id = meeting.id;
 
-      await meetingStore.editMeeting(data, userStore.user.token);
+      if (picture) data.picture = picture;
+
+      await meetingStore.editMeeting(userStore.user.token, data, picture);
 
       if (meetingStore.state === 'done') {
         Toast.showWithGravity('Meeting Editted', Toast.LONG, Toast.BOTTOM);
@@ -65,6 +70,7 @@ const EditMeeting = observer((props) => {
             value={meeting}
             onChange={(v) => onChange(v)}
           />
+          <CameraManager setPicture={setPicture} />
         </View>
         <AppButton
           bgColor="rgba(255, 38, 74, 0.9)"
@@ -73,6 +79,7 @@ const EditMeeting = observer((props) => {
           iconName="pencil"
           iconSize={30}
           iconColor="#fff"
+          setWidth={true}
         />
       </Card>
     </View>

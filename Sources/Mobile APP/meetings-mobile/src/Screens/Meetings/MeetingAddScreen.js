@@ -75,8 +75,8 @@ const AddMeeting = observer((props) => {
             onChange={(v) => onChange(v)}
           />
         </View>
+        <CameraManager setPicture={setPicture} />
       </Card>
-      <CameraManager setPicture={setPicture} />
       <AppButton
         bgColor="rgba(255, 38, 74, 0.9)"
         title="Add "
@@ -84,6 +84,7 @@ const AddMeeting = observer((props) => {
         iconName="plus"
         iconSize={30}
         iconColor="#fff"
+        setWidth={true}
       />
     </View>
   );

@@ -8,7 +8,6 @@ const CameraManager = (props) => {
   const [image, setImage] = useState(null);
 
   const selectPicture = async () => {
-    console.log('select picture');
     try {
       await Permissions.askAsync(Permissions.CAMERA);
       let result = await ImagePicker.launchImageLibraryAsync({
@@ -21,15 +20,12 @@ const CameraManager = (props) => {
         setImage(result.uri);
         props.setPicture(result.uri);
       }
-
-      console.log(result);
     } catch (error) {
       console.log(error);
     }
   };
 
   const takePicture = async () => {
-    console.log('take picture');
     try {
       await Permissions.askAsync(Permissions.CAMERA);
       let result = await ImagePicker.launchCameraAsync({
@@ -42,8 +38,6 @@ const CameraManager = (props) => {
         setImage(result.uri);
         props.setPicture(result.uri);
       }
-
-      console.log(result);
     } catch (error) {
       console.log(error);
     }
@@ -52,7 +46,10 @@ const CameraManager = (props) => {
   return (
     <View style={styles.container}>
       {image ? (
-        <Image style={styles.image} source={{ uri: image }} />
+        //<Image style={styles.image} source={{ uri: image }} />
+        // eslint-disable-next-line no-useless-escape
+        <Text style={styles.text}>{`Image Obtained !!!
+        ${image.replace(/^.*[\\\/]/, '')} `}</Text>
       ) : (
         <Text style={styles.text}>There Is Not an Image Yet</Text>
       )}
@@ -84,13 +81,19 @@ export default CameraManager;
 const styles = StyleSheet.create({
   text: {
     fontSize: 21,
+    textAlign: 'center',
   },
-  row: { flexDirection: 'row' },
+  row: {
+    flexWrap: 'wrap',
+    flexDirection: 'row',
+    marginTop: 10,
+  },
   image: { width: 300, height: 300, backgroundColor: 'gray' },
   container: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    marginVertical: 50,
+    marginTop: 30,
+    marginBottom: 100,
   },
 });

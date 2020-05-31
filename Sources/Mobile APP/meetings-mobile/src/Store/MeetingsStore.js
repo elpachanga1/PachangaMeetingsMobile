@@ -40,13 +40,9 @@ class MeetingsStore {
         formData.append('image', picture);
 
         response = await axios.post(
-          `${backendAPIURL}/${backendAPIURL}/image`,
+          `${backendAPIURL}/${response.data.body.id}/image`,
           formData,
-          {
-            headers: {
-              'Content-Type': 'multipart/form-data',
-            },
-          }
+          config
         );
 
         newMeeting.picture = response.data.body.picture;
@@ -61,13 +57,30 @@ class MeetingsStore {
   }
 
   @action
-  async editMeeting(meeting, token) {
+  async editMeeting(token, meeting, picture) {
+    console.log(picture);
     try {
       this.state = 'pending';
 
       const config = {
         headers: { Authorization: `Bearer ${token}` },
       };
+
+      let newPicture = null;
+      if (picture) {
+        // eslint-disable-next-line no-undef
+        let formData = new FormData();
+        formData.append('file', picture);
+        console.log(formData);
+
+        const response = await axios.post(
+          `${backendAPIURL}/${meeting.meeting_id}/image`,
+          formData,
+          config
+        );
+
+        newPicture = response.data.body.picture;
+      }
 
       await axios.put(backendAPIURL, meeting, config);
 
@@ -77,6 +90,7 @@ class MeetingsStore {
               ...x,
               title: meeting.title,
               description: meeting.description,
+              picture: newPicture,
             }
           : x;
       });

@@ -16,7 +16,7 @@ router.post('/follow', secure('update'), meeting_follow);
 router.get('/:id/following', meeting_following);
 router.post('/', secure('update'), insert);
 router.put('/', secure('update'), update);
-router.post('/:id/image', upload, upload_image);
+router.post('/:id/image', secure('create'), upload, upload_image);
 router.delete('/:id', secure('create'), remove);
 
 //internal functions
