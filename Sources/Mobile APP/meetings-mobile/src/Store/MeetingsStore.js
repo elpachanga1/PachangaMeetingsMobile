@@ -38,30 +38,34 @@ class MeetingsStore {
 
       if (picture) {
         let formData = new FormData();
-        // Assume "photo" is the name of the form field the server expects
+
         formData.append('file', {
           uri: picture,
           name: `image.${picture.split('.').pop()}`,
           type: `image/${picture.split('.').pop()}`,
         });
 
-        await fetch(`${backendAPIURL}/${response.data.body.id}/image`, {
-          method: 'POST',
-          body: formData,
-          headers: {
-            'content-type': 'multipart/form-data',
-            Authorization: `Bearer ${token}`,
-          },
-        }).then(() => {
-          newMeeting.picture = response.data.body.picture;
-        });
+        await axios
+          .post(`${backendAPIURL}/${response.data.body.id}/image`, formData, {
+            headers: {
+              'content-type': 'multipart/form-data',
+              Authorization: `Bearer ${token}`,
+            },
+          })
+          .then((res) => {
+            newMeeting.picture = res.data.body.picture;
+          })
+          .catch((error) => {
+            axios.delete(`${backendAPIURL}/${response.data.body.id}`, config);
+            throw new Error('Error Uploading Image', error);
+          });
       }
 
       this.meetings = [...this.meetings, newMeeting];
       this.state = 'done';
     } catch (error) {
       console.log(error);
-      this.state = 'error';
+      this.state = error.message;
     }
   }
 
@@ -75,40 +79,50 @@ class MeetingsStore {
         headers: { Authorization: `Bearer ${token}` },
       };
 
-      let newPicture = null;
+      let newPicture = '';
       if (picture) {
-        // eslint-disable-next-line no-undef
         let formData = new FormData();
-        formData.append('file', picture);
-        console.log(formData);
 
-        const response = await axios.post(
-          `${backendAPIURL}/${meeting.meeting_id}/image`,
-          formData,
-          config
-        );
+        formData.append('file', {
+          uri: picture,
+          name: `image.${picture.split('.').pop()}`,
+          type: `image/${picture.split('.').pop()}`,
+        });
 
-        newPicture = response.data.body.picture;
+        await axios
+          .post(`${backendAPIURL}/${meeting.meeting_id}/image`, formData, {
+            headers: {
+              'content-type': 'multipart/form-data',
+              Authorization: `Bearer ${token}`,
+            },
+          })
+          .then((response) => {
+            newPicture = response.data.body.picture;
+          })
+          .catch((error) => {
+            throw new Error('Error Uploading Image', error);
+          });
       }
 
       await axios.put(backendAPIURL, meeting, config);
 
       let newMeetings = this.meetings.map((x) => {
-        return x.id === meeting.meeting_id
-          ? {
-              ...x,
-              title: meeting.title,
-              description: meeting.description,
-              picture: newPicture,
-            }
-          : x;
+        if (x.id === meeting.meeting_id) {
+          const updatedMeeting = {
+            ...x,
+            title: meeting.title,
+            description: meeting.description,
+          };
+          if (newPicture) updatedMeeting.picture = newPicture;
+          return updatedMeeting;
+        } else return x;
       });
 
       this.meetings = newMeetings;
       this.state = 'done';
     } catch (error) {
       console.log(error);
-      this.state = 'error';
+      this.state = error.message;
     }
   }
 

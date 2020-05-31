@@ -47,7 +47,7 @@ const EditMeeting = observer((props) => {
         meetingListNavigation(props.navigation);
       } else {
         Toast.showWithGravity(
-          'Meeting Couldnt Be Editted',
+          `Meeting Couldnt Be Editted: ${meetingStore.state}`,
           Toast.LONG,
           Toast.BOTTOM
         );

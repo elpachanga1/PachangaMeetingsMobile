@@ -51,7 +51,7 @@ const AddMeeting = observer((props) => {
         meetingListNavigation(props.navigation);
       } else {
         Toast.showWithGravity(
-          'Meeting Couldnt Be Created',
+          `Meeting Couldnt Be Created: ${meetingStore.state}`,
           Toast.LONG,
           Toast.BOTTOM
         );
