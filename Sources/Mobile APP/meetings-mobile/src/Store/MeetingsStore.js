@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 import { observable, action } from 'mobx';
 import { createContext } from 'react';
-import { backendAPIURL } from '../../config';
+import { BACKEND_API_URL } from '../../config';
 import axios from 'axios';
 import FormData from 'form-data';
 
@@ -13,7 +13,7 @@ class MeetingsStore {
   async getMeetings() {
     try {
       this.state = 'pending';
-      const response = await axios.get(backendAPIURL);
+      const response = await axios.get(BACKEND_API_URL);
 
       this.meetings = response.data.body;
       this.state = 'done';
@@ -32,7 +32,7 @@ class MeetingsStore {
         headers: { Authorization: `Bearer ${token}` },
       };
 
-      let response = await axios.post(backendAPIURL, meeting, config);
+      let response = await axios.post(BACKEND_API_URL, meeting, config);
 
       let newMeeting = { ...meeting, id: response.data.body.id };
 
@@ -46,7 +46,7 @@ class MeetingsStore {
         });
 
         await axios
-          .post(`${backendAPIURL}/${response.data.body.id}/image`, formData, {
+          .post(`${BACKEND_API_URL}/${response.data.body.id}/image`, formData, {
             headers: {
               'content-type': 'multipart/form-data',
               Authorization: `Bearer ${token}`,
@@ -56,7 +56,7 @@ class MeetingsStore {
             newMeeting.picture = res.data.body.picture;
           })
           .catch((error) => {
-            axios.delete(`${backendAPIURL}/${response.data.body.id}`, config);
+            axios.delete(`${BACKEND_API_URL}/${response.data.body.id}`, config);
             throw new Error('Error Uploading Image', error);
           });
       }
@@ -90,7 +90,7 @@ class MeetingsStore {
         });
 
         await axios
-          .post(`${backendAPIURL}/${meeting.meeting_id}/image`, formData, {
+          .post(`${BACKEND_API_URL}/${meeting.meeting_id}/image`, formData, {
             headers: {
               'content-type': 'multipart/form-data',
               Authorization: `Bearer ${token}`,
@@ -104,7 +104,7 @@ class MeetingsStore {
           });
       }
 
-      await axios.put(backendAPIURL, meeting, config);
+      await axios.put(BACKEND_API_URL, meeting, config);
 
       let newMeetings = this.meetings.map((x) => {
         if (x.id === meeting.meeting_id) {
@@ -135,7 +135,7 @@ class MeetingsStore {
         headers: { Authorization: `Bearer ${token}` },
       };
 
-      await axios.delete(`${backendAPIURL}/${meeting.id}`, config);
+      await axios.delete(`${BACKEND_API_URL}/${meeting.id}`, config);
 
       this.meetings = this.meetings.filter((x) => x.id !== meeting.id);
       this.state = 'done';

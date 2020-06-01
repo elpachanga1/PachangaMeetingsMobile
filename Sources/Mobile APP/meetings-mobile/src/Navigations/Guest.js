@@ -3,9 +3,11 @@ import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import { createDrawerNavigator } from 'react-navigation-drawer';
 import Icon from 'react-native-vector-icons/FontAwesome';
+
 import StartScreen from '../Screens/Meetings/MeetingListScreen';
 import LoginScreen from '../Screens/Authentication/LoginScreen';
 import MeetingDetailScreen from '../Screens/Meetings/MeetingDetailScreen';
+import MapScreen from '../Screens/Map/MapScreen';
 
 //navigation options (some default styles)
 const navigationOptions = {
@@ -82,6 +84,21 @@ const LoginScreenStack = createStackNavigator(
   navigationOptions
 );
 
+//navigation section login
+const MapScreenStack = createStackNavigator(
+  {
+    MapScreen: {
+      screen: MapScreen,
+      navigationOptions: ({ navigation }) => ({
+        title: 'Map',
+        headerRight: rightIcon(navigation, 'home'),
+        headerLeft: leftIcon(navigation, 'bars'),
+      }),
+    },
+  },
+  navigationOptions
+);
+
 //navigation section rigth drop-down menu
 const RootStack = createDrawerNavigator(
   {
@@ -100,6 +117,15 @@ const RootStack = createDrawerNavigator(
         drawerLabel: 'Log In - Sign Up',
         drawerIcon: ({ tintColor }) => {
           <Icon name="sign-in" size={30} style={{ color: tintColor }} />;
+        },
+      }),
+    },
+    MapScreen: {
+      screen: MapScreenStack,
+      navigationOptions: () => ({
+        drawerLabel: 'Maps',
+        drawerIcon: ({ tintColor }) => {
+          <Icon name="map-marker" size={30} style={{ color: tintColor }} />;
         },
       }),
     },

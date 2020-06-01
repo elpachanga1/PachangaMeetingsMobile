@@ -3,7 +3,7 @@ import axios from 'axios';
 import { View, Text, StyleSheet } from 'react-native';
 import Toast from 'react-native-simple-toast';
 
-import { backendAPIURL } from '../../../config';
+import { BACKEND_API_URL } from '../../../config';
 import FollowList from './FollowList';
 import Preloader from '../General/PreLoader';
 import AppButton from '../General/AppButton';
@@ -16,7 +16,7 @@ const Follows = (props) => {
   const getFollowsPerID = async (id) => {
     try {
       setStatus('pending');
-      const response = await axios.get(`${backendAPIURL}/${id}/following`);
+      const response = await axios.get(`${BACKEND_API_URL}/${id}/following`);
 
       setFollows(response.data.body);
       setStatus('done');
@@ -51,7 +51,7 @@ const Follows = (props) => {
         headers: { Authorization: `Bearer ${props.user.token}` },
       };
 
-      await axios.post(`${backendAPIURL}/follow`, follow, config);
+      await axios.post(`${BACKEND_API_URL}/follow`, follow, config);
 
       setFollows([...follows, follow]);
 
