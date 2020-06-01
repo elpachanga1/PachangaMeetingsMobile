@@ -23,9 +23,18 @@ const EditMeeting = observer((props) => {
   const [picture, setPicture] = useState('');
   const [meeting, setMeeting] = useState(props.navigation.getParam('meeting'));
 
-  const meetingListNavigation = (navigation) => {
+  const meetingDetailNavigation = (meeting, navigation) => {
     const navigateAction = NavigationActions.navigate({
-      routeName: 'StartScreen',
+      routeName: 'MeetingDetailScreen',
+      params: { meeting },
+    });
+    navigation.dispatch(navigateAction);
+  };
+
+  const mapNavigation = (meeting, navigation) => {
+    const navigateAction = NavigationActions.navigate({
+      routeName: 'MapScreen',
+      params: { meeting },
     });
     navigation.dispatch(navigateAction);
   };
@@ -34,17 +43,23 @@ const EditMeeting = observer((props) => {
     const validate = formRef.current.getValue();
 
     if (validate) {
-      let data = Object.assign({}, validate);
-      data.user_id = userStore.user.user.aud;
-      data.meeting_id = meeting.id;
+      let request = Object.assign({}, validate);
+      request.user_id = userStore.user.user.aud;
+      request.meeting_id = meeting.id;
 
-      if (picture) data.picture = picture;
+      if (picture) request.picture = picture;
 
-      await meetingStore.editMeeting(userStore.user.token, data, picture);
+      //is obtained the new mmeting at time that is updated in the database
+      const newMeeting = await meetingStore.editMeeting(
+        userStore.user.token,
+        request,
+        picture
+      );
+      setMeeting(newMeeting);
 
       if (meetingStore.state === 'done') {
         Toast.showWithGravity('Meeting Editted', Toast.LONG, Toast.BOTTOM);
-        meetingListNavigation(props.navigation);
+        meetingDetailNavigation(meeting, props.navigation);
       } else {
         Toast.showWithGravity(
           `Meeting Couldnt Be Editted: ${meetingStore.state}`,
@@ -72,6 +87,16 @@ const EditMeeting = observer((props) => {
           />
           <CameraManager setPicture={setPicture} />
         </View>
+        <AppButton
+          bgColor="rgba(255, 38, 74, 0.9)"
+          title="Select Map Location "
+          action={mapNavigation(meeting, props.navigation)}
+          iconName="pencil"
+          iconSize={30}
+          iconColor="#fff"
+          setWidth={true}
+        />
+        <View style={{ marginVertical: 15 }} />
         <AppButton
           bgColor="rgba(255, 38, 74, 0.9)"
           title="Update "

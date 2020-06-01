@@ -7,7 +7,7 @@ import { Card } from 'react-native-elements';
 import { observer } from 'mobx-react';
 import AppButton from '../../Components/General/AppButton';
 
-import { AUTH0_CLIENT_ID, AUTHORIZATION_ENDPOINT } from '../../../config';
+import { auth0ClientId, authorizationEndpoint } from '../../../config';
 import { UserStoreContext } from '../../Store/UserStore';
 
 const useProxy = Platform.select({
@@ -25,7 +25,7 @@ const Login = observer(({ navigation }) => {
   const [request, result, promptAsync] = AuthSession.useAuthRequest(
     {
       redirectUri,
-      clientId: AUTH0_CLIENT_ID,
+      clientId: auth0ClientId,
       // id_token will return a JWT token
       responseType: 'id_token',
       // retrieve the user's profile
@@ -36,7 +36,7 @@ const Login = observer(({ navigation }) => {
       },
     },
     {
-      AUTHORIZATION_ENDPOINT,
+      authorizationEndpoint,
     }
   );
 

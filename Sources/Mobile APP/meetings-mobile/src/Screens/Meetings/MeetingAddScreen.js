@@ -35,6 +35,14 @@ const AddMeeting = observer((props) => {
     navigation.dispatch(navigateAction);
   };
 
+  const mapNavigation = (meeting, navigation) => {
+    const navigateAction = NavigationActions.navigate({
+      routeName: 'MapScreen',
+      params: { meeting },
+    });
+    navigation.dispatch(navigateAction);
+  };
+
   const save = async () => {
     const validate = formRef.current.getValue();
 
@@ -77,6 +85,16 @@ const AddMeeting = observer((props) => {
         </View>
         <CameraManager setPicture={setPicture} />
       </Card>
+      <AppButton
+        bgColor="rgba(255, 38, 74, 0.9)"
+        title="Select Map Location "
+        action={mapNavigation(meeting, props.navigation)}
+        iconName="pencil"
+        iconSize={30}
+        iconColor="#fff"
+        setWidth={true}
+      />
+      <View style={{ marginVertical: 15 }} />
       <AppButton
         bgColor="rgba(255, 38, 74, 0.9)"
         title="Add "

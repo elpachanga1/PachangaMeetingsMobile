@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 import { observable, action } from 'mobx';
 import { createContext } from 'react';
 import { BACKEND_API_URL } from '../../config';
@@ -70,7 +69,7 @@ class MeetingsStore {
   }
 
   @action
-  async editMeeting(token, meeting, picture) {
+  async editMeeting(token, request, picture) {
     console.log(picture);
     try {
       this.state = 'pending';
@@ -90,7 +89,7 @@ class MeetingsStore {
         });
 
         await axios
-          .post(`${BACKEND_API_URL}/${meeting.meeting_id}/image`, formData, {
+          .post(`${BACKEND_API_URL}/${request.meeting_id}/image`, formData, {
             headers: {
               'content-type': 'multipart/form-data',
               Authorization: `Bearer ${token}`,
@@ -104,22 +103,25 @@ class MeetingsStore {
           });
       }
 
-      await axios.put(BACKEND_API_URL, meeting, config);
+      await axios.put(BACKEND_API_URL, request, config);
 
+      let newMeeting = {};
       let newMeetings = this.meetings.map((x) => {
-        if (x.id === meeting.meeting_id) {
+        if (x.id === request.meeting_id) {
           const updatedMeeting = {
             ...x,
-            title: meeting.title,
-            description: meeting.description,
+            title: request.title,
+            description: request.description,
           };
           if (newPicture) updatedMeeting.picture = newPicture;
+          newMeeting = updatedMeeting;
           return updatedMeeting;
         } else return x;
       });
 
       this.meetings = newMeetings;
       this.state = 'done';
+      return newMeeting;
     } catch (error) {
       console.log(error);
       this.state = error.message;
