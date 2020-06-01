@@ -3,11 +3,13 @@ import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import { createDrawerNavigator } from 'react-navigation-drawer';
 import Icon from 'react-native-vector-icons/FontAwesome';
+
 import StartScreen from '../Screens/Meetings/MeetingListScreen';
 import LogoutScreen from '../Screens/Authentication/LogoutScreen';
 import MeetingDetailScreen from '../Screens/Meetings/MeetingDetailScreen';
 import MeetingEditScreen from '../Screens/Meetings/MeetingEditScreen';
 import MeetingAddScreen from '../Screens/Meetings/MeetingAddScreen';
+import MapScreen from '../Screens/Map/MapScreen';
 
 //navigation options (some default styles)
 const navigationOptions = {
@@ -76,6 +78,13 @@ const MeetingScreenStack = createStackNavigator(
       screen: MeetingAddScreen,
       navigationOptions: ({ navigation }) => ({
         title: 'Add Meeting',
+        headerLeft: rightIcon(navigation, 'arrow-left'),
+      }),
+    },
+    MapScreen: {
+      screen: MapScreen,
+      navigationOptions: ({ navigation }) => ({
+        title: 'Map',
         headerLeft: rightIcon(navigation, 'arrow-left'),
       }),
     },

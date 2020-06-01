@@ -25,21 +25,20 @@ export default class PlaceInput extends Component {
     this.getPlacesDebounced = _.debounce(this.getPlaces, 1000);
   }
 
+  //function to get suggestion places
   async getPlaces(input) {
     const { userLatitude, userLongitude } = this.props;
-
     const result = await axios.get(
       `${MAPS_API_URL_AUTOCOMPLETE}?key=${MAPS_CLIENT_ID}&input=${input}&location=${userLatitude}, ${userLongitude}&radius=2000`
     );
-
-    console.log(result.data);
-
     this.setState({ predictions: result.data.predictions });
   }
 
+  //set selected place
   setDestination(main_text, place_id) {
     Keyboard.dismiss();
     this.setState({ destinationInput: main_text, predictions: [] });
+    this.props.setDestinationName(main_text);
     this.props.showDirectionsOnMap(place_id);
   }
 

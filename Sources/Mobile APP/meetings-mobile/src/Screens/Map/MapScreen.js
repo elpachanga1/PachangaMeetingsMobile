@@ -13,6 +13,7 @@ import Polyline from '@mapbox/polyline';
 import MapView, * as Maps from 'react-native-maps';
 
 import PlaceInput from '../../Components/Maps/PlaceInput';
+import PlaceSelector from '../../Components/Maps/PlaceSelector';
 import { MAPS_CLIENT_ID, MAPS_API_URL_DIRECTIONS } from '../../../config';
 
 export default class MapScreen extends Component {
@@ -23,9 +24,11 @@ export default class MapScreen extends Component {
       userLatitude: 0,
       userLongitude: 0,
       destinationCoords: [],
+      destinationName: '',
     };
     this.locationWatchID = null;
     this.showDirectionsOnMap = this.showDirectionsOnMap.bind(this);
+    this.setDestinationName = this.setDestinationName.bind(this);
     this.map = React.createRef(); //referencia para tamaño de mapa
   }
 
@@ -48,8 +51,6 @@ export default class MapScreen extends Component {
       const result = await axios.get(
         `${MAPS_API_URL_DIRECTIONS}?origin=${userLatitude},${userLongitude}&destination=place_id:${placeId}&key=${MAPS_CLIENT_ID}`
       );
-
-      //console.log(result.data);
       //se decodifica el arreglo obtenido con la ruta desde el inicio hasta el fin
       const points = Polyline.decode(
         result.data.routes[0].overview_polyline.points
@@ -66,6 +67,10 @@ export default class MapScreen extends Component {
     } catch (err) {
       console.error(err);
     }
+  }
+
+  setDestinationName(name) {
+    this.setState({ destinationName: name });
   }
 
   //funcion para ocultar el teclado, (usar con TouchableWithoutFeedback)
@@ -115,9 +120,14 @@ export default class MapScreen extends Component {
       userLongitude,
       hasMapPermissions,
     } = this.state;
+
     let polyline = null;
     let marker = null;
 
+    const location =
+      destinationCoords.length > 0
+        ? destinationCoords[destinationCoords.length - 1]
+        : null;
     if (destinationCoords.length > 0) {
       polyline = (
         <Maps.Polyline
@@ -127,11 +137,7 @@ export default class MapScreen extends Component {
         />
       );
 
-      marker = (
-        <Maps.Marker
-          coordinate={destinationCoords[destinationCoords.length - 1]}
-        />
-      );
+      marker = <Maps.Marker coordinate={location} />;
     }
 
     return (
@@ -151,13 +157,21 @@ export default class MapScreen extends Component {
                   longitudeDelta: 0.0121,
                 }}
               >
-                {polyline}
+                {/*polyline*/}
                 {marker}
               </MapView>
+
               <PlaceInput
                 showDirectionsOnMap={this.showDirectionsOnMap}
                 userLatitude={userLatitude}
                 userLongitude={userLongitude}
+                setDestinationName={this.setDestinationName}
+              />
+              <PlaceSelector
+                destinationName={this.state.destinationName}
+                navigation={this.props.navigation}
+                meeting={this.props.navigation.getParam('meeting')}
+                location={location}
               />
             </Fragment>
           ) : (
