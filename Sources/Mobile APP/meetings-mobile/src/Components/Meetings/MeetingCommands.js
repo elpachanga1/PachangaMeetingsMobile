@@ -22,7 +22,6 @@ const MeetingCommands = observer((props) => {
 
   //remove meeting
   const removeMeetingAlert = (meeting, token, navigation) => {
-    console.log('eliminar reunion');
     Alert.alert(
       'Delete Meeting',
       'Do you want to delete this Meeting',

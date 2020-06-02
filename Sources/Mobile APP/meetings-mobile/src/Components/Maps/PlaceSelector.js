@@ -6,9 +6,12 @@ import { NavigationActions } from 'react-navigation';
 import AppButton from '../General/AppButton';
 
 //navigation to edit meeting
-function editMeeting(meeting, navigation) {
+function previousScreen(meeting, navigation) {
+  const routes = navigation.dangerouslyGetParent().state.routes;
+
+  //i got the last route to navigate there (edit or add Meeting)
   const navigateAction = NavigationActions.navigate({
-    routeName: 'MeetingEditScreen',
+    routeName: routes[routes.length - 2].routeName,
     params: { meeting },
   });
   navigation.dispatch(navigateAction);
@@ -32,7 +35,7 @@ const PlaceSelector = (props) => {
         Toast.BOTTOM
       );
 
-      editMeeting(
+      previousScreen(
         {
           ...props.meeting,
           location_name,

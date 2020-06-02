@@ -35,7 +35,7 @@ module.exports = function (injectedStore) {
       title: body.title,
       description: body.description,
       location_name: body.location_name,
-      created_by: body.user.aud,
+      created_by: body.user.sub,
       created_date: moment().format('YYYY-MM-DD HH:mm:ss'),
       latitude: body.latitude,
       longitude: body.longitude,
@@ -70,7 +70,7 @@ module.exports = function (injectedStore) {
 
     let event = {
       meeting_id: body.meeting_id,
-      user_id: body.user.aud,
+      user_id: body.user.sub,
       nickname: body.user.nickname,
     };
 

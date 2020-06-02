@@ -21,7 +21,7 @@ const check = {
       decoded.updated_at.replace('T', ' ').replace('Z', '')
     ).format('YYYY-MM-DD HH:mm:ss');
 
-    if (decoded.aud !== owner) {
+    if (decoded.sub !== owner) {
       throw error('Unable to edit register', 401);
     } else if (moment().isAfter(expirationTokenDate)) {
       throw error('Expired Token', 401);

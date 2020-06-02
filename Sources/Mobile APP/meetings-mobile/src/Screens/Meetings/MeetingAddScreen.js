@@ -1,5 +1,5 @@
 /* eslint-disable react/no-string-refs */
-import React, { useState, useContext, useRef } from 'react';
+import React, { useState, useContext, useRef, useEffect } from 'react';
 import t from 'tcomb-form-native';
 import { Card } from 'react-native-elements';
 import Toast from 'react-native-simple-toast';
@@ -28,9 +28,10 @@ const AddMeeting = observer((props) => {
 
   const formRef = useRef(null);
 
-  const meetingListNavigation = (navigation) => {
+  const meetingDetailNavigation = (meeting, navigation) => {
     const navigateAction = NavigationActions.navigate({
-      routeName: 'StartScreen',
+      routeName: 'MeetingDetailScreen',
+      params: { meeting },
     });
     navigation.dispatch(navigateAction);
   };
@@ -47,16 +48,22 @@ const AddMeeting = observer((props) => {
     const validate = formRef.current.getValue();
 
     if (validate) {
-      let data = Object.assign({}, validate);
-      data.user_id = userStore.user.user.sub;
+      let request = Object.assign({}, validate);
+      request.user_id = userStore.user.user.sub;
 
-      if (picture) data.picture = picture;
+      if (meeting.location_name) request.location_name = meeting.location_name;
+      if (meeting.latitude) request.latitude = meeting.latitude;
+      if (meeting.longitude) request.longitude = meeting.longitude;
+      if (picture) request.picture = picture;
 
-      await meetingStore.addMeeting(userStore.user.token, data, picture);
+      const newMeeting = await meetingStore.addMeeting(
+        userStore.user.token,
+        request
+      );
 
       if (meetingStore.state === 'done') {
         Toast.showWithGravity('Meeting Created', Toast.LONG, Toast.BOTTOM);
-        meetingListNavigation(props.navigation);
+        meetingDetailNavigation(newMeeting, props.navigation);
       } else {
         Toast.showWithGravity(
           `Meeting Couldnt Be Created: ${meetingStore.state}`,
@@ -70,6 +77,12 @@ const AddMeeting = observer((props) => {
   const onChange = (e) => {
     setMeeting(e);
   };
+
+  //useEffect like componentDidUpdate to update meeting hook
+  useEffect(() => {
+    if (meeting !== props.navigation.getParam('meeting'))
+      setMeeting(props.navigation.getParam('meeting'));
+  }, [props.navigation.getParam('meeting')]);
 
   return (
     <View style={styles.container}>

@@ -1,4 +1,4 @@
-import React, { useState, useContext, useRef } from 'react';
+import React, { useState, useContext, useRef, useEffect } from 'react';
 import t from 'tcomb-form-native';
 import { Card } from 'react-native-elements';
 import Toast from 'react-native-simple-toast';
@@ -47,19 +47,21 @@ const EditMeeting = observer((props) => {
       request.user_id = userStore.user.user.sub;
       request.meeting_id = meeting.id;
 
+      if (meeting.location_name) request.location_name = meeting.location_name;
+      if (meeting.latitude) request.latitude = meeting.latitude;
+      if (meeting.longitude) request.longitude = meeting.longitude;
       if (picture) request.picture = picture;
 
-      //is obtained the new mmeting at time that is updated in the database
+      //is obtained the new meting at time that is updated in the database
       const newMeeting = await meetingStore.editMeeting(
         userStore.user.token,
-        request,
-        picture
+        request
       );
-      setMeeting(newMeeting);
 
       if (meetingStore.state === 'done') {
         Toast.showWithGravity('Meeting Editted', Toast.LONG, Toast.BOTTOM);
-        meetingDetailNavigation(meeting, props.navigation);
+        setMeeting(newMeeting);
+        meetingDetailNavigation(newMeeting, props.navigation);
       } else {
         Toast.showWithGravity(
           `Meeting Couldnt Be Editted: ${meetingStore.state}`,
@@ -73,6 +75,12 @@ const EditMeeting = observer((props) => {
   const onChange = (e) => {
     setMeeting(e);
   };
+
+  //useEffect like componentDidUpdate to update meeting hook
+  useEffect(() => {
+    if (meeting !== props.navigation.getParam('meeting'))
+      setMeeting(props.navigation.getParam('meeting'));
+  }, [props.navigation.getParam('meeting')]);
 
   return (
     <View style={styles.container}>

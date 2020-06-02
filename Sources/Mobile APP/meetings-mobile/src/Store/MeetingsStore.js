@@ -23,7 +23,9 @@ class MeetingsStore {
   }
 
   @action
-  async addMeeting(token, meeting, picture) {
+  async addMeeting(token, meeting) {
+    const { picture } = meeting;
+
     try {
       this.state = 'pending';
 
@@ -55,13 +57,16 @@ class MeetingsStore {
             newMeeting.picture = res.data.body.picture;
           })
           .catch((error) => {
-            axios.delete(`${BACKEND_API_URL}/${response.data.body.id}`, config);
-            throw new Error('Error Uploading Image', error);
+            throw new Error(
+              'Error Uploading Image, Your Meeting Has Been Created Without an Image, Try Uploading a valid Image format',
+              error
+            );
           });
       }
 
       this.meetings = [...this.meetings, newMeeting];
       this.state = 'done';
+      return newMeeting;
     } catch (error) {
       console.log(error);
       this.state = error.message;
@@ -69,8 +74,9 @@ class MeetingsStore {
   }
 
   @action
-  async editMeeting(token, request, picture) {
-    console.log(picture);
+  async editMeeting(token, request) {
+    const { picture } = request;
+
     try {
       this.state = 'pending';
 
@@ -81,11 +87,12 @@ class MeetingsStore {
       let newPicture = '';
       if (picture) {
         let formData = new FormData();
+        const extension = picture.split('.').pop();
 
         formData.append('file', {
           uri: picture,
-          name: `image.${picture.split('.').pop()}`,
-          type: `image/${picture.split('.').pop()}`,
+          name: `image.${extension}`,
+          type: `image/${extension}`,
         });
 
         await axios
@@ -99,7 +106,10 @@ class MeetingsStore {
             newPicture = response.data.body.picture;
           })
           .catch((error) => {
-            throw new Error('Error Uploading Image', error);
+            throw new Error(
+              'Error Uploading Image, Try Uploading a valid Image format',
+              error
+            );
           });
       }
 
@@ -108,12 +118,18 @@ class MeetingsStore {
       let newMeeting = {};
       let newMeetings = this.meetings.map((x) => {
         if (x.id === request.meeting_id) {
+          //update the selected element in the meetings array
           const updatedMeeting = {
             ...x,
             title: request.title,
             description: request.description,
           };
+
           if (newPicture) updatedMeeting.picture = newPicture;
+          if (request.location_name)
+            updatedMeeting.location_name = request.location_name;
+          if (request.latitude) updatedMeeting.latitude = request.latitude;
+          if (request.longitude) updatedMeeting.longitude = request.longitude;
           newMeeting = updatedMeeting;
           return updatedMeeting;
         } else return x;
