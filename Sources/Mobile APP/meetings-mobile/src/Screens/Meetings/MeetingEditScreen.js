@@ -44,7 +44,7 @@ const EditMeeting = observer((props) => {
 
     if (validate) {
       let request = Object.assign({}, validate);
-      request.user_id = userStore.user.user.aud;
+      request.user_id = userStore.user.user.sub;
       request.meeting_id = meeting.id;
 
       if (picture) request.picture = picture;
@@ -90,7 +90,7 @@ const EditMeeting = observer((props) => {
         <AppButton
           bgColor="rgba(255, 38, 74, 0.9)"
           title="Select Map Location "
-          action={mapNavigation(meeting, props.navigation)}
+          action={() => mapNavigation(meeting, props.navigation)}
           iconName="pencil"
           iconSize={30}
           iconColor="#fff"

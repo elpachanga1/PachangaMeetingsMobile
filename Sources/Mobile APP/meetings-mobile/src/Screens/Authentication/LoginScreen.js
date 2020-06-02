@@ -56,7 +56,7 @@ const Login = observer(({ navigation }) => {
         // Retrieve the JWT token and decode it
         const token = result.params.id_token;
         const decoded = jwtDecode(token);
-
+        console.log(decoded);
         const { nickname } = decoded;
 
         userStore.user = {

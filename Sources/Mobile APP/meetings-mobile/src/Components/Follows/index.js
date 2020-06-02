@@ -42,7 +42,7 @@ const Follows = (props) => {
     try {
       const follow = {
         meeting_id: props.id,
-        user_id: props.user.user.aud,
+        user_id: props.user.user.sub,
         picture: props.user.user.picture,
         nickname: props.user.user.nickname,
       };
@@ -73,7 +73,7 @@ const Follows = (props) => {
 
   const visibilityAddButton =
     props.user &&
-    follows.filter((x) => x.user_id === props.user.user.aud).length === 0;
+    follows.filter((x) => x.user_id === props.user.user.sub).length === 0;
 
   //final return (render)
   return (

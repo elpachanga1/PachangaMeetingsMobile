@@ -2,3 +2,6 @@ Sources/API/node_modules
 Sources/Mobile APP/meetings-mobile/node_modules
 Sources/Mobile APP/meetings-mobile/.expo/web
 Sources/API/images/
+Sources/Mobile APP/meetings-mobile/config.js
+Sources/API/.env
+Sources/Mobile APP/meetings-mobile/.expo/packager-info.json
