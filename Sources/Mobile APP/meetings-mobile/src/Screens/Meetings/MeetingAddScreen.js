@@ -3,7 +3,7 @@ import React, { useState, useContext, useRef, useEffect } from 'react';
 import t from 'tcomb-form-native';
 import { Card } from 'react-native-elements';
 import Toast from 'react-native-simple-toast';
-import { View, StyleSheet } from 'react-native';
+import { View, ScrollView } from 'react-native';
 import { NavigationActions } from 'react-navigation';
 import { observer } from 'mobx-react';
 
@@ -86,19 +86,17 @@ const AddMeeting = observer((props) => {
   }, [props.navigation.getParam('meeting')]);
 
   return (
-    <View style={styles.container}>
+    <ScrollView>
       <Card title="Add Meeting">
-        <View>
-          <Form
-            ref={formRef}
-            type={Meeting}
-            options={options}
-            value={meeting}
-            onChange={(v) => onChange(v)}
-          />
-        </View>
-        <CameraManager setPicture={setPicture} />
+        <Form
+          ref={formRef}
+          type={Meeting}
+          options={options}
+          value={meeting}
+          onChange={(v) => onChange(v)}
+        />
       </Card>
+      <CameraManager setPicture={setPicture} />
       <PlaceShower
         latitude={meeting.latitude}
         longitude={meeting.longitude}
@@ -123,15 +121,8 @@ const AddMeeting = observer((props) => {
         iconColor="#fff"
         setWidth={true}
       />
-    </View>
+    </ScrollView>
   );
-});
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: 'rgba(231, 228, 224, 0.8)',
-    padding: 10,
-  },
 });
 
 export default AddMeeting;
