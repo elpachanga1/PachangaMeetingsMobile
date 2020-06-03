@@ -6,6 +6,7 @@ import { observer } from 'mobx-react';
 import { UserStoreContext } from '../../Store/UserStore';
 import Follows from '../Follows';
 import MeetingCommands from './MeetingCommands';
+import PlaceShower from '../Maps/PlaceShower';
 
 const MeetingDetail = observer((props) => {
   const { meeting, navigation } = props;
@@ -36,6 +37,11 @@ const MeetingDetail = observer((props) => {
           navigation={navigation}
         />
       ) : null}
+      <PlaceShower
+        latitude={meeting.latitude}
+        longitude={meeting.longitude}
+        location_name={meeting.location_name}
+      />
       <Follows id={meeting.id} user={user} />
     </Card>
   );

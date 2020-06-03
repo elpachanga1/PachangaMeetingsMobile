@@ -8,6 +8,7 @@ import { observer } from 'mobx-react';
 
 import AppButton from '../../Components/General/AppButton';
 import CameraManager from '../../Components/Image/CameraManagerV2';
+import PlaceShower from '../../Components/Maps/PlaceShower';
 
 import { options, Meeting } from '../../Forms/MeetingForm';
 import { MeetingsStoreContext } from '../../Store/MeetingsStore';
@@ -95,6 +96,11 @@ const EditMeeting = observer((props) => {
           />
           <CameraManager setPicture={setPicture} />
         </View>
+        <PlaceShower
+          latitude={meeting.latitude}
+          longitude={meeting.longitude}
+          location_name={meeting.location_name}
+        />
         <AppButton
           bgColor="rgba(255, 38, 74, 0.9)"
           title="Select Map Location "

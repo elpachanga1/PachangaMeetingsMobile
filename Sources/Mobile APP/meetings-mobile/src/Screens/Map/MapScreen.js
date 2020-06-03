@@ -128,6 +128,7 @@ export default class MapScreen extends Component {
       destinationCoords.length > 0
         ? destinationCoords[destinationCoords.length - 1]
         : null;
+
     if (destinationCoords.length > 0) {
       polyline = (
         <Maps.Polyline
