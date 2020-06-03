@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import MapView, * as Maps from 'react-native-maps';
+import { isFloat } from '../../Utils/isFloat';
 
 //minimap
 const PlaceShower = (props) => {
@@ -30,7 +31,7 @@ const PlaceShower = (props) => {
     </View>
   );
 
-  return lat !== 0 && lon !== 0 && location_name ? (
+  return lat && isFloat(lat) && lon && isFloat(lon) && location_name ? (
     view
   ) : (
     <Text style={styles.title}>

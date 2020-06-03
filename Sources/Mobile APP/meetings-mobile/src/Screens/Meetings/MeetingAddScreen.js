@@ -3,7 +3,7 @@ import React, { useState, useContext, useRef, useEffect } from 'react';
 import t from 'tcomb-form-native';
 import { Card } from 'react-native-elements';
 import Toast from 'react-native-simple-toast';
-import { View, ScrollView } from 'react-native';
+import { View, ScrollView, Text, StyleSheet } from 'react-native';
 import { NavigationActions } from 'react-navigation';
 import { observer } from 'mobx-react';
 
@@ -25,6 +25,9 @@ const AddMeeting = observer((props) => {
   const [meeting, setMeeting] = useState({
     title: '',
     description: '',
+    latitude: 0,
+    longitude: 0,
+    location_name: '',
   });
 
   const formRef = useRef(null);
@@ -85,6 +88,8 @@ const AddMeeting = observer((props) => {
       setMeeting(props.navigation.getParam('meeting'));
   }, [props.navigation.getParam('meeting')]);
 
+  console.log('add');
+  console.log(meeting);
   return (
     <ScrollView>
       <Card title="Add Meeting">
@@ -97,11 +102,18 @@ const AddMeeting = observer((props) => {
         />
       </Card>
       <CameraManager setPicture={setPicture} />
-      <PlaceShower
-        latitude={meeting.latitude}
-        longitude={meeting.longitude}
-        location_name={meeting.location_name}
-      />
+      {meeting ? (
+        <PlaceShower
+          latitude={meeting.latitude}
+          longitude={meeting.longitude}
+          location_name={meeting.location_name}
+        />
+      ) : (
+        <Text style={styles.title}>
+          There Arent a Location Stored in Our Database
+        </Text>
+      )}
+
       <AppButton
         bgColor="rgba(255, 38, 74, 0.9)"
         title="Select Map Location "
@@ -123,6 +135,15 @@ const AddMeeting = observer((props) => {
       />
     </ScrollView>
   );
+});
+
+const styles = StyleSheet.create({
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginTop: 5,
+  },
 });
 
 export default AddMeeting;
