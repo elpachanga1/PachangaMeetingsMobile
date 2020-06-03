@@ -1,7 +1,5 @@
 //logica de negocios
-const {
-  nanoid
-} = require('nanoid');
+const { nanoid } = require('nanoid');
 const moment = require('moment');
 
 const validateField = require('../../Utils/validateFields');
@@ -18,7 +16,7 @@ module.exports = function (injectedStore) {
 
   async function list() {
     const query = {
-      active: true
+      active: true,
     };
 
     return await store.query(DATA_TABLE_MEETINGS, query);
@@ -87,10 +85,10 @@ module.exports = function (injectedStore) {
   }
 
   async function upload_image(req) {
-    const picture = encodeURI(
-      `http://${process.env.API_HOST}:${process.env.API_PORT}/${req.file.filename}`
+    const picture = encodeURI(req.file.filename);
+    console.log(
+      `Storage location is http://${process.env.API_HOST}:${process.env.API_PORT}/${picture}`
     );
-    console.log(`Storage location is ${picture}`);
 
     const event = {
       id: req.params.id,
@@ -103,8 +101,8 @@ module.exports = function (injectedStore) {
 
     return {
       ...response,
-      picture
-    }
+      picture,
+    };
   }
 
   async function remove(id) {
@@ -119,6 +117,6 @@ module.exports = function (injectedStore) {
     meeting_follow,
     meeting_following,
     upload_image,
-    remove
+    remove,
   };
 };

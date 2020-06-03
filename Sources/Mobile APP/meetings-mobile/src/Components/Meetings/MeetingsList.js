@@ -88,7 +88,12 @@ export default function MeetingList(props) {
       <FlatList
         data={formatData(meetings)}
         renderItem={({ item }) => (
-          <MeetingItem item={item} width={itemWidth} navigation={navigation} />
+          <MeetingItem
+            key={item.id}
+            item={item}
+            width={itemWidth}
+            navigation={navigation}
+          />
         )}
         keyExtractor={(item) => item.id}
         numColumns={NUM_COLUMNS}

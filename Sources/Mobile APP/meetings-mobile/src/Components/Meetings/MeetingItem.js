@@ -2,6 +2,8 @@ import React from 'react';
 import { View, StyleSheet, Text, Image, TouchableOpacity } from 'react-native';
 import { NavigationActions } from 'react-navigation';
 
+import { BACKEND_API_HOST } from '../../../config';
+
 //navigation to detailed meeting
 function meetingDetail(meeting, navigation) {
   const navigateAction = NavigationActions.navigate({
@@ -27,9 +29,7 @@ export default function Item({ item, width, navigation }) {
           style={styles.image}
           source={
             item.picture
-              ? {
-                  uri: item.picture,
-                }
+              ? { uri: `${BACKEND_API_HOST}/${item.picture}` }
               : require('../../../public/no-image-found-360x260.png')
           }
         />

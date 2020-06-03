@@ -7,6 +7,7 @@ import { UserStoreContext } from '../../Store/UserStore';
 import Follows from '../Follows';
 import MeetingCommands from './MeetingCommands';
 import PlaceShower from '../Maps/PlaceShower';
+import { BACKEND_API_HOST } from '../../../config';
 
 const MeetingDetail = observer((props) => {
   const { meeting, navigation } = props;
@@ -19,18 +20,22 @@ const MeetingDetail = observer((props) => {
       }
     : null;
 
+  console.log('uri');
+  console.log(`${BACKEND_API_HOST}/${meeting.picture}`);
   return (
     <Card
       title={meeting.name}
       image={
         meeting.picture
-          ? { uri: meeting.picture }
+          ? { uri: `${BACKEND_API_HOST}/${meeting.picture}` }
           : require('../../../public/no-image-found-360x260.png')
       }
     >
       <Text style={styles.title}>{meeting.title}</Text>
       <Text style={styles.description}>{meeting.description}</Text>
-      {user && meeting.created_by === user.user.sub ? (
+      {user &&
+      (meeting.created_by === user.user.sub ||
+        meeting.user_id === user.user.sub) ? (
         <MeetingCommands
           meeting={meeting}
           token={user.token}

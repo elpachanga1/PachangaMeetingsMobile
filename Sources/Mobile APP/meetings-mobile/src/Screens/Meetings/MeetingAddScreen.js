@@ -88,8 +88,6 @@ const AddMeeting = observer((props) => {
       setMeeting(props.navigation.getParam('meeting'));
   }, [props.navigation.getParam('meeting')]);
 
-  console.log('add');
-  console.log(meeting);
   return (
     <ScrollView>
       <Card title="Add Meeting">
