@@ -1,0 +1,262 @@
+{
+	"info": {
+		"_postman_id": "73ee6789-1089-4c60-b79f-a10db4f9620e",
+		"name": "API Reuniones Cafeto",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "get meetings",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3500/api/meetings",
+					"host": [
+						"localhost"
+					],
+					"port": "3500",
+					"path": [
+						"api",
+						"meetings"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get meeting",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3500/api/meetings/GaRQOpQENjHlhhcl2rVas",
+					"host": [
+						"localhost"
+					],
+					"port": "3500",
+					"path": [
+						"api",
+						"meetings",
+						"GaRQOpQENjHlhhcl2rVas"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "insert meeting",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlF6QTJNRUkwUmpZNU9EQTRSVVV4UkVaRlJqTkNPVVJHT0RSRE1VTXpSRGt3UlRNNU9VRXdRZyJ9.eyJnaXZlbl9uYW1lIjoiZmFiaWFuIiwiZmFtaWx5X25hbWUiOiJndWVycmVybyIsIm5pY2tuYW1lIjoiZmFiaWFuZ3VlcnJlcm85MzI4IiwibmFtZSI6ImZhYmlhbiBndWVycmVybyIsInBpY3R1cmUiOiJodHRwczovL2xoMy5nb29nbGV1c2VyY29udGVudC5jb20vYS0vQU9oMTRHZzJzS0ktdTBGRXdiQ1hydGhtMjUycWtsX09aMW5lUXI5cEJBT3hfUSIsImxvY2FsZSI6ImVzIiwidXBkYXRlZF9hdCI6IjIwMjAtMDUtMzBUMDM6NDI6NTIuMTI5WiIsImlzcyI6Imh0dHBzOi8vZGV2LS1ldWxqZHI3LmF1dGgwLmNvbS8iLCJzdWIiOiJnb29nbGUtb2F1dGgyfDEwNDg0NTg1NTU2NTQ0Njk1NTE1OSIsImF1ZCI6Im5menNBS3ZZUDNCajJYcDdiOXlWRHltMjFTd1Vrd01KIiwiaWF0IjoxNTkwODEwMTcyLCJleHAiOjE1OTA4NDYxNzIsIm5vbmNlIjoibm9uY2UifQ.SWhVUkBUpfEGjOkcOafBu6qUwb6h3jmtyEVa6DT8tQ-iCLtQ9aPcxmb887MrBCaEtkQWkdIjWkm3aUgWgIAnBZKhbJYIZHjtUXQURG1g_8DrT54vzSC2hTJBNqsTzGBQs488NX8nOZOpa4Cuss2Bc5-YijhdwNMZ6fRKXzuXN_DgsUmoH92yflQMAL13ji-miWi4VYYs0-wnsT6wIanWqIIYXW38z2r4XUD-5AJENmTX7GndJs7Q1dihPQkUoHsCi2fC_l9REVxLzFyVn6YHFQos3-T9nD42bO9DN1JZgvCNXSsZbwXFofYYRT7zuqfzfItrCwA0hzX8UxD5Z37dUQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"user_id\":\"nfzsAKvYP3Bj2Xp7b9yVDym21SwUkwMJ\",\"title\":\"comidita de tacos 8\",\"description\":\"vamos a comerles\",\"location_name\":\"canaaa\",\"latitude\":\"0\",\"longitude\":\"0\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3500/api/meetings",
+					"host": [
+						"localhost"
+					],
+					"port": "3500",
+					"path": [
+						"api",
+						"meetings"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update meeting",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlF6QTJNRUkwUmpZNU9EQTRSVVV4UkVaRlJqTkNPVVJHT0RSRE1VTXpSRGt3UlRNNU9VRXdRZyJ9.eyJnaXZlbl9uYW1lIjoiZmFiaWFuIiwiZmFtaWx5X25hbWUiOiJndWVycmVybyIsIm5pY2tuYW1lIjoiZmFiaWFuZ3VlcnJlcm85MzI4IiwibmFtZSI6ImZhYmlhbiBndWVycmVybyIsInBpY3R1cmUiOiJodHRwczovL2xoMy5nb29nbGV1c2VyY29udGVudC5jb20vYS0vQU9oMTRHZzJzS0ktdTBGRXdiQ1hydGhtMjUycWtsX09aMW5lUXI5cEJBT3hfUSIsImxvY2FsZSI6ImVzIiwidXBkYXRlZF9hdCI6IjIwMjAtMDUtMzFUMDk6MDE6MzAuNDg5WiIsImlzcyI6Imh0dHBzOi8vZGV2LS1ldWxqZHI3LmF1dGgwLmNvbS8iLCJzdWIiOiJnb29nbGUtb2F1dGgyfDEwNDg0NTg1NTU2NTQ0Njk1NTE1OSIsImF1ZCI6Im5menNBS3ZZUDNCajJYcDdiOXlWRHltMjFTd1Vrd01KIiwiaWF0IjoxNTkwOTE1NjkwLCJleHAiOjE1OTA5NTE2OTAsIm5vbmNlIjoibm9uY2UifQ.OmNtF0-x5Tv5AQEV_0C34kKDbZEEZ3jyuy7tOYdKHn6TJgVMMSacJzc1gbIFyLawLYrg19JnkT1EQaQhH0rZCu-K3pR7W-PCb7WhZkeCJDAEL1Bo4tQUSZCcBexC1YrNUVhZL_HKdRJ-jHNhVInyEMONtXncQ0fnpQcJBnEHdRah00LzXIysAfkYpNrltyVD5rK_qmrGoHYAFbhQADUI9A-CcQ5nez0a7e1H4SaNat-4w-0hYgPCBPJ0Re6PJ5kDkurOuW4b7EDE_i2r_rWSALscHM72zUgM5V8i0o1wnFpiW90hXEhIxoWeZ8JucjwUwXGwf73nU_PC9GPxxmUKmg",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/C:/Users/fabianguerrero/Downloads/Untitled Diagram.png"
+						}
+					],
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3500/api/meetings",
+					"host": [
+						"localhost"
+					],
+					"port": "3500",
+					"path": [
+						"api",
+						"meetings"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "follow meeting",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlF6QTJNRUkwUmpZNU9EQTRSVVV4UkVaRlJqTkNPVVJHT0RSRE1VTXpSRGt3UlRNNU9VRXdRZyJ9.eyJnaXZlbl9uYW1lIjoiZmFiaWFuIiwiZmFtaWx5X25hbWUiOiJndWVycmVybyIsIm5pY2tuYW1lIjoiZmFiaWFuZ3VlcnJlcm85MzI4IiwibmFtZSI6ImZhYmlhbiBndWVycmVybyIsInBpY3R1cmUiOiJodHRwczovL2xoMy5nb29nbGV1c2VyY29udGVudC5jb20vYS0vQU9oMTRHZzJzS0ktdTBGRXdiQ1hydGhtMjUycWtsX09aMW5lUXI5cEJBT3hfUSIsImxvY2FsZSI6ImVzIiwidXBkYXRlZF9hdCI6IjIwMjAtMDUtMzBUMDM6NDI6NTIuMTI5WiIsImlzcyI6Imh0dHBzOi8vZGV2LS1ldWxqZHI3LmF1dGgwLmNvbS8iLCJzdWIiOiJnb29nbGUtb2F1dGgyfDEwNDg0NTg1NTU2NTQ0Njk1NTE1OSIsImF1ZCI6Im5menNBS3ZZUDNCajJYcDdiOXlWRHltMjFTd1Vrd01KIiwiaWF0IjoxNTkwODEwMTcyLCJleHAiOjE1OTA4NDYxNzIsIm5vbmNlIjoibm9uY2UifQ.SWhVUkBUpfEGjOkcOafBu6qUwb6h3jmtyEVa6DT8tQ-iCLtQ9aPcxmb887MrBCaEtkQWkdIjWkm3aUgWgIAnBZKhbJYIZHjtUXQURG1g_8DrT54vzSC2hTJBNqsTzGBQs488NX8nOZOpa4Cuss2Bc5-YijhdwNMZ6fRKXzuXN_DgsUmoH92yflQMAL13ji-miWi4VYYs0-wnsT6wIanWqIIYXW38z2r4XUD-5AJENmTX7GndJs7Q1dihPQkUoHsCi2fC_l9REVxLzFyVn6YHFQos3-T9nD42bO9DN1JZgvCNXSsZbwXFofYYRT7zuqfzfItrCwA0hzX8UxD5Z37dUQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"meeting_id\":\"GaRQOpQENjHlhhcl2rVas\",\"user_id\":\"nfzsAKvYP3Bj2Xp7b9yVDym21SwUkwMJ\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3500/api/meetings/follow",
+					"host": [
+						"localhost"
+					],
+					"port": "3500",
+					"path": [
+						"api",
+						"meetings",
+						"follow"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "meeting followers",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3500/api/meetings/GaRQOpQENjHlhhcl2rVas/following",
+					"host": [
+						"localhost"
+					],
+					"port": "3500",
+					"path": [
+						"api",
+						"meetings",
+						"GaRQOpQENjHlhhcl2rVas",
+						"following"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Upload Image",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlF6QTJNRUkwUmpZNU9EQTRSVVV4UkVaRlJqTkNPVVJHT0RSRE1VTXpSRGt3UlRNNU9VRXdRZyJ9.eyJnaXZlbl9uYW1lIjoiZmFiaWFuIiwiZmFtaWx5X25hbWUiOiJndWVycmVybyIsIm5pY2tuYW1lIjoiZmFiaWFuZ3VlcnJlcm85MzI4IiwibmFtZSI6ImZhYmlhbiBndWVycmVybyIsInBpY3R1cmUiOiJodHRwczovL2xoMy5nb29nbGV1c2VyY29udGVudC5jb20vYS0vQU9oMTRHZzJzS0ktdTBGRXdiQ1hydGhtMjUycWtsX09aMW5lUXI5cEJBT3hfUSIsImxvY2FsZSI6ImVzIiwidXBkYXRlZF9hdCI6IjIwMjAtMDUtMzFUMDk6MDE6MzAuNDg5WiIsImlzcyI6Imh0dHBzOi8vZGV2LS1ldWxqZHI3LmF1dGgwLmNvbS8iLCJzdWIiOiJnb29nbGUtb2F1dGgyfDEwNDg0NTg1NTU2NTQ0Njk1NTE1OSIsImF1ZCI6Im5menNBS3ZZUDNCajJYcDdiOXlWRHltMjFTd1Vrd01KIiwiaWF0IjoxNTkwOTE1NjkwLCJleHAiOjE1OTA5NTE2OTAsIm5vbmNlIjoibm9uY2UifQ.OmNtF0-x5Tv5AQEV_0C34kKDbZEEZ3jyuy7tOYdKHn6TJgVMMSacJzc1gbIFyLawLYrg19JnkT1EQaQhH0rZCu-K3pR7W-PCb7WhZkeCJDAEL1Bo4tQUSZCcBexC1YrNUVhZL_HKdRJ-jHNhVInyEMONtXncQ0fnpQcJBnEHdRah00LzXIysAfkYpNrltyVD5rK_qmrGoHYAFbhQADUI9A-CcQ5nez0a7e1H4SaNat-4w-0hYgPCBPJ0Re6PJ5kDkurOuW4b7EDE_i2r_rWSALscHM72zUgM5V8i0o1wnFpiW90hXEhIxoWeZ8JucjwUwXGwf73nU_PC9GPxxmUKmg",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/C:/Users/fabianguerrero/Downloads/cd58f495b7e1854166379eafaee129e8--mundo-geek-one-piece-anime.jpg"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:3500/api/meetings/n1P0avCrPCfTMdz41VUah/image",
+					"host": [
+						"localhost"
+					],
+					"port": "3500",
+					"path": [
+						"api",
+						"meetings",
+						"n1P0avCrPCfTMdz41VUah",
+						"image"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete meeting",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlF6QTJNRUkwUmpZNU9EQTRSVVV4UkVaRlJqTkNPVVJHT0RSRE1VTXpSRGt3UlRNNU9VRXdRZyJ9.eyJnaXZlbl9uYW1lIjoiZmFiaWFuIiwiZmFtaWx5X25hbWUiOiJndWVycmVybyIsIm5pY2tuYW1lIjoiZmFiaWFuZ3VlcnJlcm85MzI4IiwibmFtZSI6ImZhYmlhbiBndWVycmVybyIsInBpY3R1cmUiOiJodHRwczovL2xoMy5nb29nbGV1c2VyY29udGVudC5jb20vYS0vQU9oMTRHZzJzS0ktdTBGRXdiQ1hydGhtMjUycWtsX09aMW5lUXI5cEJBT3hfUSIsImxvY2FsZSI6ImVzIiwidXBkYXRlZF9hdCI6IjIwMjAtMDUtMzBUMDM6NDI6NTIuMTI5WiIsImlzcyI6Imh0dHBzOi8vZGV2LS1ldWxqZHI3LmF1dGgwLmNvbS8iLCJzdWIiOiJnb29nbGUtb2F1dGgyfDEwNDg0NTg1NTU2NTQ0Njk1NTE1OSIsImF1ZCI6Im5menNBS3ZZUDNCajJYcDdiOXlWRHltMjFTd1Vrd01KIiwiaWF0IjoxNTkwODEwMTcyLCJleHAiOjE1OTA4NDYxNzIsIm5vbmNlIjoibm9uY2UifQ.SWhVUkBUpfEGjOkcOafBu6qUwb6h3jmtyEVa6DT8tQ-iCLtQ9aPcxmb887MrBCaEtkQWkdIjWkm3aUgWgIAnBZKhbJYIZHjtUXQURG1g_8DrT54vzSC2hTJBNqsTzGBQs488NX8nOZOpa4Cuss2Bc5-YijhdwNMZ6fRKXzuXN_DgsUmoH92yflQMAL13ji-miWi4VYYs0-wnsT6wIanWqIIYXW38z2r4XUD-5AJENmTX7GndJs7Q1dihPQkUoHsCi2fC_l9REVxLzFyVn6YHFQos3-T9nD42bO9DN1JZgvCNXSsZbwXFofYYRT7zuqfzfItrCwA0hzX8UxD5Z37dUQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:3500/api/meetings/Fl8Clcb6BIF6hLDcf8olf",
+					"host": [
+						"localhost"
+					],
+					"port": "3500",
+					"path": [
+						"api",
+						"meetings",
+						"Fl8Clcb6BIF6hLDcf8olf"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
