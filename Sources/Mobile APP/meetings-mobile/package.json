@@ -9,7 +9,7 @@
     "expo-permissions": "^8.1.0",
     "form-data": "^3.0.0",
     "jwt-decode": "2.2.0",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.21",
     "mobx": "^5.15.4",
     "mobx-react": "^6.2.2",
     "moment": "^2.26.0",
